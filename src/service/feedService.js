@@ -1,4 +1,4 @@
-const feedDAO = require('../DAO/feedDAO');
+const feedDAO = require('../DAO/feedDao');
 
 const { pool } = require('../config/db');
 
