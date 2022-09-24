@@ -21,7 +21,7 @@ class userController {
         } else if (userId < 1) {
             return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
         }
-
+    }
     createPersona = async (req, res) => {
         const { userId, personaId, nickname, introduction, profileImgUrl } = req.body;
 
@@ -54,6 +54,21 @@ class userController {
 
         return res.send(createPersonaResult);
     };
+
+    // 페르소나 수정
+    changePersona = async (req, res) => {
+        const profileId = req.query.profileId;
+
+        if (!profileId) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
+        } else if (profileId < 0) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
+        }
+
+        const changedResult = await this.userService.changeUserPersona(profileId);
+
+        return res.send(changedResult);
+    }
 };
 
 module.exports = userController;

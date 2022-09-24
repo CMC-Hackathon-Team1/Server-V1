@@ -42,7 +42,32 @@ class userDAO {
         return profileRow;
     }
 
-}
+    selectUserOtherPersona = async (conn, profileId) => {
+        const selectQuery = `
+            SELECT ps.personaId, ps.personaName
+            FROM Persona as ps
+            WHERE personaId = (
+                SELECT personaId
+                FROM Profiles
+                WHERE profileId = ?
+            )
+        `;
+        
+        const [selectResult] = await conn.query(selectQuery, profileId);
 
+        return selectResult;
+    }
+
+    selectProfileNameByProfileId = async (conn, profileId) => {
+        const selectQuery = `
+            SELECT profileName
+            FROM Profiles
+            WHERE profileId = ?
+        `;
+        const [ selectResult ] = await conn.query(selectQuery, profileId);
+
+        return selectResult;
+    }
+}
 
 module.exports = userDAO;
