@@ -1,6 +1,6 @@
 const AdminDAO = require('../DAO/admin.DAO');
 
-const { pool } = require('../asset/db');
+const { pool } = require('../config/db');
 
 const baseResponse = require('../utility/baseResponseStatus')
 const { errResponse, response } = require('../utility/response');
