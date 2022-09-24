@@ -113,6 +113,43 @@ class userService {
         }
     }
 
+    retrieveUserStatics = async (profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            
+            const userStatics={};
+
+            const userLikeCount=await this.userDAO.retrieveUserLikeCount(connection,profileId);
+
+            console.log(userLikeCount);
+            userStatics.likeCount=userLikeCount.likeCount;
+
+
+            const userFeedCount = await this.userDAO.retrieveUserFeedCount(connection,profileId);
+    
+            console.log(userFeedCount);
+            userStatics.feedCount=userFeedCount.feedCount;
+
+            
+            const userFollowCount = await this.userDAO.retrieveUserFollowCount(connection,profileId);
+    
+            console.log(userFollowCount);
+            userStatics.followCount=userFollowCount.followCount;
+
+            
+
+            await connection.commit();
+            
+            return response(baseResponse.SUCCESS, userStatics);
+        } catch (e) {
+            console.log(e);
+    
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
 
 }
 

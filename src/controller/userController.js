@@ -21,6 +21,9 @@ class userController {
         } else if (userId < 1) {
             return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
         }
+        const retrieveUserProfilesResult = await this.userService.retrieveUserProfiles(userId);
+    
+        return res.send(retrieveUserProfilesResult);
     }
     createPersona = async (req, res) => {
         const { userId, personaId, nickname, introduction, profileImgUrl } = req.body;
@@ -46,7 +49,7 @@ class userController {
 
         const checkUserPersonaCount = await this.userService.checkUserPersona(userId);
 
-        if (checkUserPersonaCount[0].count >= 3) {
+       if (checkUserPersonaCount[0].count >= 3) {
             return res.send(errResponse(baseResponse.PERSONA_COUNT_OVER));
         };
 
@@ -68,6 +71,20 @@ class userController {
         const changedResult = await this.userService.changeUserPersona(profileId);
 
         return res.send(changedResult);
+    }
+    
+    getUserStatics = async (req, res) => {
+        const profileId = req.params.profileId;
+
+        if (!profileId){
+            return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
+        } else if (profileId < 1) {
+            return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
+        }
+
+        const retrieveUserStatics = await this.userService.retrieveUserStatics(profileId);
+    
+        return res.send(retrieveUserStatics);
     }
 };
 

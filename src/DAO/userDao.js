@@ -57,6 +57,49 @@ class userDAO {
 
         return selectResult;
     }
+        retrieveUserFeedCount = async (conn,profileId) => {
+        const retrieveUserFeedCountQuery = 
+        `SELECT COUNT(feedId) as feedCount FROM Feeds
+        LEFT JOIN Profiles P on Feeds.profileId = P.profileId
+        where P.profileId=${profileId}
+        AND DATE_FORMAT(Feeds.createdAt,"%y-%m")=DATE_FORMAT(NOW(),"%y-%m");`;
+
+        const [feedCount] = await conn.query(retrieveUserFeedCountQuery);
+
+        console.log(feedCount);
+        
+
+        return feedCount[0];
+    }
+
+    retrieveUserLikeCount = async (conn,profileId) => {
+        const retrieveUserLikeCountQuery = 
+        `SELECT COUNT(Feeds.feedId) as likeCount FROM Feeds
+        LEFT JOIN Profiles P on Feeds.profileId = P.profileId
+        RIGHT JOIN Likes L on Feeds.feedId = L.feedId
+        where P.profileId=${profileId}
+        AND DATE_FORMAT(L.createdAt,"%y-%m")=DATE_FORMAT(NOW(),"%y-%m");`;
+
+        const [likeCount] = await conn.query(retrieveUserLikeCountQuery);
+
+        console.log(likeCount);
+        
+
+        return likeCount[0];
+    }
+
+    retrieveUserFollowCount = async (conn,profileId) => {
+        const retrieveUserFollowCountQuery = 
+        `SELECT COUNT(toUserId) as followCount FROM FollowFromTo
+        WHERE toUserId=${profileId} and DATE_FORMAT(createdAt,"%y-%m")=DATE_FORMAT(NOW(),"%y-%m")`;
+
+        const [followCount] = await conn.query(retrieveUserFollowCountQuery);
+
+        console.log(followCount);
+        
+
+        return followCount[0];
+    }
 
     selectProfileNameByProfileId = async (conn, profileId) => {
         const selectQuery = `
@@ -69,5 +112,7 @@ class userDAO {
         return selectResult;
     }
 }
+
+    
 
 module.exports = userDAO;
