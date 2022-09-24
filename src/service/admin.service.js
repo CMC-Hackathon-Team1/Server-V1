@@ -1,4 +1,4 @@
-const AdminDAO = require('../repository/admin.DAO');
+const AdminDAO = require('../DAO/admin.DAO');
 
 const { pool } = require('../asset/db');
 
@@ -46,7 +46,7 @@ class AdminService {
     
             // 로그 디비 넣기
             for (i=0; i<adminSelectResult.length; i+=1){
-                // await this.UserRepository.insertUserLog(connection, adminSelectResult[i].userIdx, 6);
+                await this.UserRepository.insertUserLog(connection, adminSelectResult[i].userIdx, 6);
             }
     
             await connection.commit();
