@@ -12,6 +12,6 @@ module.exports = () => {
     userRouter(router);
     noticeRouter(router);
     adminRouter(router);
-    
+
     return router;
 }
