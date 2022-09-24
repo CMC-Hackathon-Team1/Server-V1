@@ -542,6 +542,81 @@ paths:
           description: 비밀번호는 6~20자리를 입력해주세요
         '223':
           description: 비밀번호는 특수문자를 포함해야 합니다.
+  
+  /api/feeds/like:
+    post:
+      tags:
+        - Feed
+      summary: 게시글 좋아요
+      parameters: 
+        - in: body
+          name: 
+          description: 게시글 좋아요 파라미터
+          schema:
+            type: object
+            required:
+              - feedId
+              - profileId
+            properties:
+              feedId:
+                description: 게시글 인덱스
+                type: int
+                default: 1
+              profileId:
+                description: 프로필 인덱스
+                type: int
+                default: 2
+      responses:
+        '100':
+          description: 성공
+          content: 
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  isSuccess: 
+                    example: true
+                  code:
+                    example: 100
+                  message:
+                    example: 성공
+    delete:
+      tags:
+        - Feed
+      summary: 게시글 좋아요 취소
+      parameters: 
+        - in: body
+          name: 
+          description: 게시글 좋아요 파라미터
+          schema:
+            type: object
+            required:
+              - feedId
+              - profileId
+            properties:
+              feedId:
+                description: 게시글 인덱스
+                type: int
+                default: 1
+              profileId:
+                description: 프로필 인덱스
+                type: int
+                default: 2
+      responses:
+        '100':
+          description: 성공
+          content: 
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  isSuccess: 
+                    example: true
+                  code:
+                    example: 100
+                  message:
+                    example: 성공
+    
 
 # 공지사항
   /api/notice?page={page}:
