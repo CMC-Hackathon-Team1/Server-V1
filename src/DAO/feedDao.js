@@ -172,9 +172,37 @@ class feedDAO {
         const [insertFeedHashtagMapResult] = await conn.query(insertFeedHashtagMapQuery, insertFeedHashtagMapInfoParams);
 
         return insertFeedHashtagMapResult;
-
     }
-    
+
+    deleteFeedById = async (conn, feedId) => {
+        const deleteFeedByIdQuery = `
+            DELETE FROM Feeds
+            WHERE feedId = ?
+        `;
+        const [deleteFeedByIdResult] = await conn.query(deleteFeedByIdQuery, feedId);
+
+        return deleteFeedByIdResult;
+    }
+
+    deleteFeedCategoryMapInfo = async (conn, feedId) => {
+        const deleteFeedCategoryMapQuery = `
+            DELETE FROM FeedCategoryMapping
+            WHERE feedId = ?
+        `;
+        const [deleteFeedCategoryMapResult] = await conn.query(deleteFeedCategoryMapQuery, feedId);
+
+        return deleteFeedCategoryMapResult;
+    }
+
+    deleteFeedHashtagMapInfo = async (conn, feedId) => {
+        const deleteFeedHashtagMapQuery = `
+            DELETE FROM FeedHashTagMapping
+            WHERE feedId = ?
+        `;
+        const [deleteFeedHashtagMapResult] = await conn.query(deleteFeedHashtagMapQuery, feedId);
+
+        return deleteFeedHashtagMapResult;
+    }
 
 }
 

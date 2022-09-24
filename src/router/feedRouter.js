@@ -22,6 +22,7 @@ const feedRouter = (router) =>{
      router.get('/feeds/dates/profiles/:profileId',this.feedController.getFeedsByDate);
 
     router.post('/feeds/feed', this.feedController.postFeed);
+    router.delete('/feeds/feed/:feedId', this.feedController.deleteFeed);
 
 };
 

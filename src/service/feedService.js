@@ -118,6 +118,35 @@ class feedService {
         }
     }
 
+    // 게시글 지우기
+    deleteFeedInfo = async (profileId, feedId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            // feed 지우기
+            const deleteFeedResult = await this.feedDAO.deleteFeedById(connection, feedId);
+            // console.log(categoryId);
+
+            // category mapping 지우기
+            const deleteFeedCategoryMapResult = await this.feedDAO.deleteFeedCategoryMapInfo(connection, feedId);
+
+            // hashtag mapping 지우기
+            const deleteFeedHashtagMapResult = await this.feedDAO.deleteFeedHashtagMapInfo(connection, feedId);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
     retrieveMyFeedDate = async (year,month) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {

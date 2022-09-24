@@ -115,6 +115,21 @@ class feedController {
 
         return res.send(feedWriteResult);
     }
+
+    // 글 삭제
+    deleteFeed = async (req, res) => {
+        const profileId = 1;    // 더미 id
+        const feedId = req.params.feedId;
+
+        // if (!profileId){
+        //     return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
+        // }
+
+        const feedDeleteResult = await this.feedService.deleteFeedInfo(profileId, feedId);
+
+        return res.send(feedDeleteResult);
+    }
+
 }
 
 module.exports = feedController;
