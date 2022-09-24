@@ -84,6 +84,7 @@ class feedService {
                     // Profile Hashtag 테이블에도 매핑 추가
                     const insertNewHashtagProfileResult = await this.feedDAO.insertNewHashtagProfileInfo(connection, [profileId, insertedHashtagId]);
                     // console.log(insertNewHashtagProfileResult.insertId);
+                    hashtagIdList.push(insertNewHashtagProfileResult.insertId);
                 }
             }
             // console.log(hashtagIdList);
@@ -97,6 +98,69 @@ class feedService {
             const insertFeedCategoryMapResult = await this.feedDAO.insertFeedCategoryMap(connection, [insertedFeedId, categoryId]);
             const insertedFeedCategoryMappingId = insertFeedCategoryMapResult.insertId;
             // console.log(insertedFeedCategoryMappingId);
+
+            // @TODO
+            // Hashtag 매핑 추가
+            // for (let i = 0; i < hashtagIdList.length; i++) {
+            //     const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
+            //     console.log(insertHashtagMappingResult.insertId);
+            // }
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    // 게시글 수정하기
+    updateFeedInfo = async (profileId, feedId, category, hashtag, content, status) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            // Category id 가져오기
+            const getCategoryIdResult = await this.feedDAO.selectCategoryId(connection, category);
+            const categoryId = getCategoryIdResult[0].categoryId;
+            // console.log(categoryId);
+
+            // 수정한 Category id로 feed/category/map update
+            const updateFeedCategoryMapResult = await this.feedDAO.updateFeedCategoryMap(connection, [feedId, categoryId]);
+
+            // Hashtag 개수 구하기
+            const hashtagList = hashtags.split(', ');
+            // console.log(hashtagList);
+            const hashtagIdList = [];
+
+            // Hashtag id 전체 가져오기
+            for (let i = 0; i < hashtagList.length; i++){
+                const getHashtagIdResult = await this.feedDAO.selectHashtagId(connection, hashtagList[i]);
+                // console.log(getHashtagIdResult);
+                if (getHashtagIdResult.length > 0) {
+                    // console.log(getHashtagIdResult[0].hashTagId);
+                    hashtagIdList.push(getHashtagIdResult[0].hashTagId);
+                }
+                // 새로운 hashtag일 경우 db에 추가
+                else {
+                    const insertNewHashtagResult = await this.feedDAO.insertNewHashtagInfo(connection, hashtagList[i]);
+                    const insertedHashtagId = insertNewHashtagResult.insertId;
+                    // console.log(insertedHashtagId);
+                    // Profile Hashtag 테이블에도 매핑 추가
+                    const insertNewHashtagProfileResult = await this.feedDAO.insertNewHashtagProfileInfo(connection, [profileId, insertedHashtagId]);
+                    // console.log(insertNewHashtagProfileResult.insertId);
+                    hashtagIdList.push(insertNewHashtagProfileResult.insertId);
+                }
+            }
+            // console.log(hashtagIdList);
+
+            // Feed 수정
+            const updateFeedResult = await this.feedDAO.updateFeedInfo(connection, [content, status, feedId]);
 
             // @TODO
             // Hashtag 매핑 추가

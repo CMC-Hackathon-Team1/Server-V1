@@ -112,6 +112,17 @@ class feedDAO {
         return insertFeedResult;
     }
 
+    updateFeedInfo = async (conn, updateFeedInfoParams) => {
+        const updateFeedInfoQuery = `
+            UPDATE Feeds 
+            SET content = ?, status = ?
+            WHERE feedId = ?;
+        `;
+        const [updateFeedResult] = await conn.query(updateFeedInfoQuery, updateFeedInfoParams);
+
+        return updateFeedResult;
+    }
+
     selectCategoryId = async (conn, categoryName) => {
         const getCategoryIdQuery = `
             SELECT *
@@ -131,6 +142,17 @@ class feedDAO {
         const [insertFeedCategoryMapResult] = await conn.query(insertFeedCategoryMapQuery, insertFeedCategoryMapParams);
 
         return insertFeedCategoryMapResult;
+    }
+
+    updateFeedCategoryMap = async (conn, updateFeedCategoryMapParams) => {
+        const updateFeedCategoryMapQuery = `
+            UPDATE FeedCategoryMapping
+            SET feedId = ?, categoryId = ?
+            VALUE (?, ?);
+        `;
+        const [updateFeedCategoryMapResult] = await conn.query(updateFeedCategoryMapQuery, updateFeedCategoryMapParams);
+
+        return updateFeedCategoryMapResult;
     }
 
     selectHashtagId = async (conn, hashtagName) => {
