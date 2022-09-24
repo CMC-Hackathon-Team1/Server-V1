@@ -147,8 +147,8 @@ class feedDAO {
     updateFeedCategoryMap = async (conn, updateFeedCategoryMapParams) => {
         const updateFeedCategoryMapQuery = `
             UPDATE FeedCategoryMapping
-            SET feedId = ?, categoryId = ?
-            VALUE (?, ?);
+            SET categoryId = ?
+            WHERE feedId = ?;
         `;
         const [updateFeedCategoryMapResult] = await conn.query(updateFeedCategoryMapQuery, updateFeedCategoryMapParams);
 
@@ -178,8 +178,8 @@ class feedDAO {
 
     insertNewHashtagProfileInfo = async (conn, insertNewHashtagProfileInfoParams) => {
         const insertNewHashtagInfoQuery = `
-            INSERT INTO ProfileHashTagMapping (profileId, hashTagId)
-            VALUE (?, ?);
+            INSERT INTO ProfileHashTagMapping (profileId, hashTagId) 
+            VALUES (?, ?);
         `;
         const [insertNewHashtagInfoResult] = await conn.query(insertNewHashtagInfoQuery, insertNewHashtagProfileInfoParams);
 

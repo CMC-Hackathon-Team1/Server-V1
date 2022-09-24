@@ -142,7 +142,7 @@ class feedController {
 
         const feedUpdateResult = await this.feedService.updateFeedInfo(profileId, feedId, category, hashtag, content, status);
 
-        return res.send(feedDeleteResult);
+        return res.send(feedUpdateResult);
     }
 
 }
