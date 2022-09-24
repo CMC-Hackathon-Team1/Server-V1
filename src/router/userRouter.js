@@ -10,7 +10,7 @@ const userRouter = (router) =>{
 
     router.get('/users/:userId/profile',this.userController.getUserProfiles);
 
-    router.get('/users/:userId/profile/statistics',this.userController.getUserProfiles);
+    router.get('/users/:profileId/profile/statistics',this.userController.getUserStatics);
 };
 
 module.exports = userRouter;

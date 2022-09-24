@@ -22,9 +22,23 @@ class userController {
             return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
         }
 
-        const retrieveUserProfilesResult = await this.userService.retrieveUserProfiles(userId);
+       const retrieveUserProfilesResult = await this.userService.retrieveUserProfiles(userId);
     
         return res.send(retrieveUserProfilesResult);
+    }
+
+    getUserStatics = async (req, res) => {
+        const profileId = req.params.profileId;
+
+        if (!profileId){
+            return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
+        } else if (profileId < 1) {
+            return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
+        }
+
+        const retrieveUserStatics = await this.userService.retrieveUserStatics(profileId);
+    
+        return res.send(retrieveUserStatics);
     }
 }
 

@@ -18,7 +18,7 @@ class feedController {
         
         console.log(year,month);
         console.log(year>1900);
-        if (!(year>=1900 && year <=2100)){ //2000년도~300년도
+        if (!(year>=1900 && year <=2100)){ 
             return res.send(errResponse(baseResponse.YEAR_RANGE_OUT));
         }
         if (!(month>=1 && month<=12)) { // 1월~ 12월
