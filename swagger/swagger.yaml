@@ -337,34 +337,34 @@ paths:
           name: CreateFeed
           description: 게시글 생성 파라미터
           schema:
-              type: object
-              required:
-                - category
-                - hashtag
-                - content
-                - status
-                - imgUrl
-              properties:
-                    category:
-                        description: 카테고리 명입니다. 정해진 카테고리 명만 입력하세요.
-                        type: String
-                        default: "문화 및 예술"
-                    hashtag:
-                        description: 하나의 String 안에 ‘, ‘를 기준으로 여러 해시태그를 넣어도 됩니다. (꼭 쉼표+빈칸 한칸 으로 구분해야함) 하나만 넣어도 됩니다. 근데 아직 해시태그 기능은 완벽하지 않습니다!
-                        type: String
-                        default: "#개발"
-                    content:
-                        description: 게시물 내용
-                        type: String
-                        default: "게시물 내용을 입력합니다~!"
-                    status:
-                        description: 비공개 설정 여부 입니다. ('private' or 'active')
-                        type: String
-                        default: "private"
-                    imgUrl:
-                        description: 게시글 이미지
-                        type: String
-                        default: "ProfileImgUrl"
+            type: object
+            required:
+              - category
+              - hashtag
+              - content
+              - status
+              - imgUrl
+            properties:
+              category:
+                description: 카테고리 명입니다. 정해진 카테고리 명만 입력하세요.
+                type: String
+                default: "문화 및 예술"
+              hashtag:
+                description: 하나의 String 안에 ‘, ‘를 기준으로 여러 해시태그를 넣어도 됩니다. (꼭 쉼표+빈칸 한칸 으로 구분해야함) 하나만 넣어도 됩니다. 근데 아직 해시태그 기능은 완벽하지 않습니다!
+                type: String
+                default: "#개발"
+              content:
+                description: 게시물 내용
+                type: String
+                default: "게시물 내용을 입력합니다~!"
+              status:
+                description: 비공개 설정 여부 입니다. ('private' or 'active')
+                type: String
+                default: "private"
+              imgUrl:
+                description: 게시글 이미지
+                type: String
+                default: "ProfileImgUrl"
       responses:
         '100':
           description: 로그인 성공
@@ -391,57 +391,8 @@ paths:
           description: 비밀번호는 6~20자리를 입력해주세요
         '223':
           description: 비밀번호는 특수문자를 포함해야 합니다.
-
-
-
 # 게시글 수정 및 삭제
   /api/feeds/feed/{feedId}:
-    patch:
-      tages:
-        - Feed
-      summary: 게시글 수정
-      parameters:
-          - in: path
-            name: feedId
-            default: 1
-            schema :
-                type: integer
-            example: 1
-            required: true
-            description: 피드 인덱스
-          in: body
-          name: CreateFeed
-          description: 게시글 생성 파라미터
-          schema:
-              type: object
-              required:
-                - category
-                - hashtag
-                - content
-                - status
-                - imgUrl
-              properties:
-                    category:
-                        description: 수정할 카테고리 명입니다. 정해진 카테고리 명만 입력하세요.
-                        type: String
-                        default: "문화 및 예술"
-                    hashtag:
-                        description: 수정할 하나의 String 안에 ‘, ‘를 기준으로 여러 해시태그를 넣어도 됩니다. (꼭 쉼표+빈칸 한칸 으로 구분해야함) 하나만 넣어도 됩니다. 근데 아직 해시태그 기능은 완벽하지 않습니다!
-                        type: String
-                        default: "#개발"
-                    content:
-                        description: 수정할 게시물 내용
-                        type: String
-                        default: "게시물 내용을 입력합니다~!"
-                    status:
-                        description: 수정할 비공개 설정 여부 입니다. ('private' or 'active')
-                        type: String
-                        default: "private"
-                    imgUrl:
-                        description: 수정할 게시글 이미지
-                        type: String
-                        default: "ProfileImgUrl"
-
     delete:
       tags:
         - Feed
@@ -481,6 +432,66 @@ paths:
           description: 비밀번호는 6~20자리를 입력해주세요
         '223':
           description: 비밀번호는 특수문자를 포함해야 합니다.
+    patch:
+      tags:
+        - Feed
+      summary: 게시글 수정
+      parameters:
+          - in: path
+            name: feedId
+            default: 1
+            schema :
+                type: integer
+            example: 1
+            required: true
+            description: 피드 인덱스
+          - in: body
+            name: updateFeedInfo
+            description: 수정할 게시글 내용
+            schema:
+              type: object
+              required:
+                - category
+                - hashtag
+                - content
+                - status
+                - imgUrl
+              properties:
+                    category:
+                        description: 수정할 카테고리 명입니다. 정해진 카테고리 명만 입력하세요.
+                        type: String
+                        default: "문화 및 예술"
+                    hashtag:
+                        description: 수정할 하나의 String 안에 ‘, ‘를 기준으로 여러 해시태그를 넣어도 됩니다. (꼭 쉼표+빈칸 한칸 으로 구분해야함) 하나만 넣어도 됩니다. 근데 아직 해시태그 기능은 완벽하지 않습니다!
+                        type: String
+                        default: "#개발"
+                    content:
+                        description: 수정할 게시물 내용
+                        type: String
+                        default: "게시물 내용을 입력합니다~!"
+                    status:
+                        description: 수정할 비공개 설정 여부 입니다. ('private' or 'active')
+                        type: String
+                        default: "private"
+                    imgUrl:
+                        description: 수정할 게시글 이미지
+                        type: String
+                        default: "ProfileImgUrl"
+      responses:
+        '100':
+          description: 로그인 성공
+          content: 
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  isSuccess: 
+                    example: true
+                  code:
+                    example: 100
+                  message:
+                    example: 성공
+    
 
 # (프로필 별)달력에서 게시글 존재 여부들 가져오기
   /api/calendars?year={year}&month={month}:
