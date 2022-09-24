@@ -17,12 +17,13 @@ const feedRouter = (router) =>{
     */
     router.get('/feeds/feed', this.feedController.getFeedInfo);
 
-     // 회원 전체 정보 보기
-     router.get('/calendars', this.feedController.getCalendarInfo);
-     router.get('/feeds/dates/profiles/:profileId',this.feedController.getFeedsByDate);
+    // 회원 전체 정보 보기
+    router.get('/calendars', this.feedController.getCalendarInfo);
+    router.get('/feeds/dates/profiles/:profileId',this.feedController.getFeedsByDate);
 
     router.post('/feeds/feed', this.feedController.postFeed);
     router.delete('/feeds/feed/:feedId', this.feedController.deleteFeed);
+    router.patch('/feeds/feed/:feedId', this.feedController.patchFeed);
 
     // 게시글 좋아요
     router.post('/feeds/like', this.feedController.postFeedLike);

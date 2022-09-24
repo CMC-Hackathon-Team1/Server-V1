@@ -3,20 +3,24 @@ class feedDAO {
     cosntructor(){}
     
     retrieveMyFeedDate = async (conn,  year,month) => {
-        const retrieveMyFeedDateQuery = `SELECT date_format(createdAt,"%Y-%m-%d") as date FROM Feeds
-        WHERE date_format(createdAt,"%Y-%m")="${year}-${month}";`;
+        const retrieveMyFeedDateQuery = `
+            SELECT date_format(createdAt,"%Y-%m-%d") as date,ImgUrl  FROM Feeds
+            WHERE date_format(createdAt,"%Y-%m")="2022-09"
+            group by date;
+        `;
         
         const [myFeedDateInfo] = await conn.query(retrieveMyFeedDateQuery);
     
 
-        const myFeedDate=new Set();
-        for(let i=0; i<myFeedDateInfo.length;i++){
-            myFeedDate.add(myFeedDateInfo[i].date);
-        }
+        // const myFeedDate=new Set();
+        // for(let i=0; i<myFeedDateInfo.length;i++){
+        //     myFeedDate.add(myFeedDateInfo[i].date);
+        // }
 
-        console.log(myFeedDate);
+        console.log("우하하하");
+        console.log(myFeedDateInfo);
 
-        return myFeedDate;
+        return myFeedDateInfo;
     }
 
     getFeedsByDate = async (conn,  year,month,day,profileId) => {
@@ -112,6 +116,17 @@ class feedDAO {
         return insertFeedResult;
     }
 
+    updateFeedInfo = async (conn, updateFeedInfoParams) => {
+        const updateFeedInfoQuery = `
+            UPDATE Feeds 
+            SET content = ?, status = ?
+            WHERE feedId = ?;
+        `;
+        const [updateFeedResult] = await conn.query(updateFeedInfoQuery, updateFeedInfoParams);
+
+        return updateFeedResult;
+    }
+
     selectCategoryId = async (conn, categoryName) => {
         const getCategoryIdQuery = `
             SELECT *
@@ -131,6 +146,17 @@ class feedDAO {
         const [insertFeedCategoryMapResult] = await conn.query(insertFeedCategoryMapQuery, insertFeedCategoryMapParams);
 
         return insertFeedCategoryMapResult;
+    }
+
+    updateFeedCategoryMap = async (conn, updateFeedCategoryMapParams) => {
+        const updateFeedCategoryMapQuery = `
+            UPDATE FeedCategoryMapping
+            SET categoryId = ?
+            WHERE feedId = ?;
+        `;
+        const [updateFeedCategoryMapResult] = await conn.query(updateFeedCategoryMapQuery, updateFeedCategoryMapParams);
+
+        return updateFeedCategoryMapResult;
     }
 
     selectHashtagId = async (conn, hashtagName) => {
@@ -156,8 +182,8 @@ class feedDAO {
 
     insertNewHashtagProfileInfo = async (conn, insertNewHashtagProfileInfoParams) => {
         const insertNewHashtagInfoQuery = `
-            INSERT INTO ProfileHashTagMapping (profileId, hashTagId)
-            VALUE (?, ?);
+            INSERT INTO ProfileHashTagMapping (profileId, hashTagId) 
+            VALUES (?, ?);
         `;
         const [insertNewHashtagInfoResult] = await conn.query(insertNewHashtagInfoQuery, insertNewHashtagProfileInfoParams);
 
