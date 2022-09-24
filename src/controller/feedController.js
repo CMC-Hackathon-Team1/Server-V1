@@ -1,4 +1,4 @@
-const feedService = require('../service/feed.service');
+const feedService = require('../service/feedService');
 
 const baseResponse = require('../utility/baseResponseStatus');
 const { errResponse, response } = require('../utility/response');

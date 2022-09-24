@@ -101,5 +101,9 @@ module.exports = {
     REPORT_POSTREPORTIDX_LENGTH : { "isSuccess": false, "code": 501, "message": "postReportIdx는 0보다 큰 값으로 입력해주세요." },
 
     REPORT_COMMENTREPORT_EMPTY : { "isSuccess": false, "code": 502, "message": "commentReportIdx를 입력해주세요"},
-    REPORT_COMMENTREPORT_LENGTH : { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
+    REPORT_COMMENTREPORT_LENGTH: { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
+    
+    USER_PERSONAID_EMPTY: { "isSuccess": false, "code": 701, "message": "personaId를 입력해주세요." },
+    USER_STATUSMESSAGE_LENGTH: { "isSuccess": false, "code": 702, "message": "한 줄 소개는 100자 이하로 입력해주세요." },
+    USER_NICKNAME_LENGTH: { "isSuccess": false, "code": 703, "message": "닉네임은 15자 이내로 입력해주세요." },
 }

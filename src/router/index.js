@@ -6,6 +6,7 @@ const router = express.Router();
 // const userRouter = require("./user.router");
 // const messageRouter = require("./message.router");
 const adminRouter = require("./admin.router");
+const userRouter = require("./userRouter");
 
 module.exports = () => {
     
@@ -14,6 +15,7 @@ module.exports = () => {
     // commentRouter(router);
     // messageRouter(router);
     adminRouter(router);
+    userRouter(router);
 
     return router;
 }
