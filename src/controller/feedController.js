@@ -56,6 +56,7 @@ class feedController {
         return res.send(myFeedDate);
     }
 
+
     // API 2.9 - 게시물 내용 조회
     getFeedInfo = async (req, res) => {
 
@@ -80,6 +81,19 @@ class feedController {
         return res.send(feedInfoResult);
     }
 
+    // 글 추가
+    postFeed = async (req, res) => {
+        const profileId = 1;    // 더미 id
+        const { category, hashtag, content, status, imgUrl} = req.body;
+
+        // if (!profileId){
+        //     return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
+        // }
+
+        const feedWriteResult = await this.feedService.postFeedInfo(profileId, category, hashtag, content, status, imgUrl);
+
+        return res.send(feedWriteResult);
+    }
 }
 
 module.exports = feedController;

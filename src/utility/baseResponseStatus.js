@@ -96,12 +96,18 @@ module.exports = {
     // Connection, Transaction 등의 서버 오류
     DB_ERROR : { "isSuccess": false, "code": 400, "message": "데이터 베이스 에러"},
     SERVER_ERROR : { "isSuccess": false, "code": 401, "message": "서버 에러"},
-    // Admin Page Error
-    REPORT_POSTREPORTIDX_EMPTY : { "isSuccess": false, "code": 500, "message": "postReportIdx를 입력해주세요"},
-    REPORT_POSTREPORTIDX_LENGTH : { "isSuccess": false, "code": 501, "message": "postReportIdx는 0보다 큰 값으로 입력해주세요." },
+    // 이준희 추가 에러
+    PERSONA_ID_NULL : {"isSuccess": false, "code": 500, "message": "personaId를 입력해주세요."},
+    PERSONA_ID_NEGATIVE : {"isSuccess": false, "code": 501, "message": "personaID는 0보다 큰 값을 입력해주세요."},
 
     REPORT_COMMENTREPORT_EMPTY : { "isSuccess": false, "code": 502, "message": "commentReportIdx를 입력해주세요"},
-    REPORT_COMMENTREPORT_LENGTH : { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
+    REPORT_COMMENTREPORT_LENGTH: { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
+    
+    // 블루
+    USER_PERSONAID_EMPTY: { "isSuccess": false, "code": 701, "message": "personaId를 입력해주세요." },
+    USER_STATUSMESSAGE_LENGTH: { "isSuccess": false, "code": 702, "message": "한 줄 소개는 100자 이하로 입력해주세요." },
+    USER_NICKNAME_LENGTH: { "isSuccess": false, "code": 703, "message": "닉네임은 15자 이내로 입력해주세요." },
+    PERSONA_COUNT_OVER: { "isSuccess": false, "code": 704, "message": "사용자별 페르소나는 3개 까지 생성 가능합니다." },
 
     // DongUk's Error Response
     //USER ERROR
@@ -113,8 +119,6 @@ module.exports = {
 
     USER_FEEDID_EMPTY :{ "isSuccess": false, "code": 3005, "message": "feedId를 입력해주세요."},
     USER_FEEDID_LENGTH :{ "isSuccess": false, "code": 3006, "message": "feedId를 0보다 큰 값으로 입력해주세요."},
-
-
 
 
 

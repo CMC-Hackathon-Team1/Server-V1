@@ -22,6 +22,8 @@ const feedRouter = (router) =>{
     
     
 
+    router.post('/feeds/feed', this.feedController.postFeed);
+
 };
 
 module.exports = feedRouter;

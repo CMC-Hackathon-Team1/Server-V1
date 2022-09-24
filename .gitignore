@@ -3,3 +3,4 @@
 package-lock.json
 temp.js
 .DS_Store
+.idea
