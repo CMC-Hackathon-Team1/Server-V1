@@ -14,7 +14,6 @@ class noticeController {
     getNotice = async (req, res) => {
         
         let page = req.query?.page;
-        console.log(page);
 
         if (page !== undefined && page < 0) {
             return res.send(errResponse(baseResponse.PAGENATION_ERROR));

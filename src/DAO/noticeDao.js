@@ -10,7 +10,6 @@ class noticeDAO {
         const orderByQurey = ` ORDER BY noticeId DESC`;
         const [selectResult] = await conn.query(selectQuery+orderByQurey+pagingQuery);
 
-        console.log(selectResult);
         return selectResult;
     }
 }

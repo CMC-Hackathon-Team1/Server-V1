@@ -69,8 +69,7 @@ class userService {
 
         try {
             await connection.beginTransaction();
-
-            // 사용자 ID를 통해 해당 사용자의 페르소나 갯수 확인
+            
             const checkPersonaCount = await this.userDAO.checkPersona(connection, userId);
 
             await connection.commit();
@@ -85,6 +84,33 @@ class userService {
             connection.release();
         }
     }
+
+    changeUserPersona = async ( profileId ) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            // 사용자의 다른 페르소나를 가지고 온 결과
+            const changedUserPersona = await this.userDAO.selectUserOtherPersona(connection, profileId);
+
+            const userProfileResult = await this.userDAO.selectProfileName(connection, profileId);
+
+            console.log(changedUserPersona)
+            console.log(userProfileResult)
+
+            await connection.commit();
+            return errResponse(baseResponse.SUCCESS, changedUserPersona, userProfileResult);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+
 }
 
 module.exports = userService;
