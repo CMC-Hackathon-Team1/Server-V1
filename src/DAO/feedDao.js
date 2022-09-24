@@ -223,6 +223,17 @@ class feedDAO {
 
         return deleteResult;
     }
+
+    selectLikeExists = async (conn, feedId, profileId) => {
+        const selectQuery = `
+            SELECT *
+            FROM Likes
+            WHERE feedId = ? and profileId = ? 
+        `;
+        const [selectResult] = await conn.query(selectQuery, [feedId, profileId]);
+
+        return selectResult;
+    }
 }
 
 
