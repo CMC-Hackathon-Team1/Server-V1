@@ -8,7 +8,9 @@ const userRouter = (router) =>{
 
 
 
-    router.get('/users/:userId/profile',this.userController.getUserProfiles)
+    router.get('/users/:userId/profile',this.userController.getUserProfiles);
+
+    router.get('/users/:userId/profile/statistics',this.userController.getUserProfiles);
 };
 
 module.exports = userRouter;
