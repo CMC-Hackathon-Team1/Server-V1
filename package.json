@@ -4,6 +4,7 @@
     "scripts": {
         "api-docs": "swagger-cli bundle ./swagger/swagger.yaml --outfile build/swagger.yaml --type yaml",
         "start": "nodemon src/index.js",
+        "start:ec2": "node src/index.js",
         "db:init": "NODE_PATH NODE_ENV=development node src/assets/init.js",
         "db:drop": "NODE_PATH=src NODE_ENV=development node src/assets/drop.js"
     },
@@ -16,11 +17,10 @@
         "jsonwebtoken": "^8.5.1",
         "mysql2": "^2.3.3",
         "path": "^0.12.7",
-        "yamljs": "^0.3.0"
+        "yamljs": "^0.3.0",
+        "swagger-ui-express": "^4.5.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.19",
-        "swagger-ui-express": "^4.5.0",
-        "gitmoji-cli": "^6.2.0"
+        "nodemon": "^2.0.19"
     }
 }

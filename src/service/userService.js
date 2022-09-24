@@ -1,4 +1,4 @@
-const userDAO = require('../DAO/userDAO');
+const userDAO = require('../DAO/userDao');
 
 const { pool } = require('../config/db');
 
@@ -149,7 +149,6 @@ class userService {
             connection.release();
         }
     }
-
 
 }
 
