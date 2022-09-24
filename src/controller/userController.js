@@ -34,6 +34,12 @@ class userController {
             return res.send(errResponse(baseResponse.USER_NICKNAME_LENGTH));
         };
 
+        const checkUserPersonaCount = await this.userService.checkUserPersona(userId);
+
+        if (checkUserPersonaCount[0].count >= 3) {
+            return res.send(errResponse(baseResponse.PERSONA_COUNT_OVER));
+        };
+
         const createPersonaResult = await this.userService.createUserPersona(userId, personaId, nickname, introduction, profileImgUrl);
 
         return res.send(createPersonaResult);

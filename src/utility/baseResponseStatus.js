@@ -106,4 +106,5 @@ module.exports = {
     USER_PERSONAID_EMPTY: { "isSuccess": false, "code": 701, "message": "personaId를 입력해주세요." },
     USER_STATUSMESSAGE_LENGTH: { "isSuccess": false, "code": 702, "message": "한 줄 소개는 100자 이하로 입력해주세요." },
     USER_NICKNAME_LENGTH: { "isSuccess": false, "code": 703, "message": "닉네임은 15자 이내로 입력해주세요." },
+    PERSONA_COUNT_OVER: { "isSuccess": false, "code": 704, "message": "사용자별 페르소나는 3개 까지 생성 가능합니다." },
 }

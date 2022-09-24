@@ -14,6 +14,18 @@ class userDAO {
 
         return;
     }
+
+    checkPersona = async (conn, userId) => {
+        const checkPersonaQuery = `
+            SELECT COUNT(*) as count
+            FROM Profiles
+            WHERE userId= ?
+        `;
+
+        const [checkPersonaResult] = await conn.query(checkPersonaQuery, userId);
+
+        return checkPersonaResult;
+    }
 }
 
 
