@@ -11,7 +11,6 @@ module.exports = {
 
 
     //Request error
-    
     SIGNIN_ERROR : {"isSuccess": false, "code": 199, "message": "회원가입을 해주세요"},
     SIGNIN_PASSWORD_TYPE : { "isSuccess": false, "code": 201, "message":"소셜 로그인 유저입니다" },
     SIGNUP_EMAIL_LENGTH : { "isSuccess": false, "code": 202, "message":"이메일은 30자리 미만으로 입력해주세요." },
@@ -95,11 +94,22 @@ module.exports = {
     // Connection, Transaction 등의 서버 오류
     DB_ERROR : { "isSuccess": false, "code": 400, "message": "데이터 베이스 에러"},
     SERVER_ERROR : { "isSuccess": false, "code": 401, "message": "서버 에러"},
- 
     // Admin Page Error
     REPORT_POSTREPORTIDX_EMPTY : { "isSuccess": false, "code": 500, "message": "postReportIdx를 입력해주세요"},
     REPORT_POSTREPORTIDX_LENGTH : { "isSuccess": false, "code": 501, "message": "postReportIdx는 0보다 큰 값으로 입력해주세요." },
 
     REPORT_COMMENTREPORT_EMPTY : { "isSuccess": false, "code": 502, "message": "commentReportIdx를 입력해주세요"},
     REPORT_COMMENTREPORT_LENGTH : { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
+
+    // DongUk's Error Response
+    //USER ERROR
+    USER_PROFILEID_EMPTY : { "isSuccess": false, "code": 3000, "message": "profileId를 입력해주세요."},
+    USER_PROFILEID_LENGTH :{ "isSuccess": false, "code": 3001, "message": "profileId를 0보다 큰 값을 입력해주세요."},
+    USER_PERSONAID_EMPTY :{ "isSuccess": false, "code": 3002, "message": "personaId를 입력해주세요."},
+    USER_PERSONAID_LENGTH :{ "isSuccess": false, "code": 3003, "message": "personaId를 0보다 큰 값을 입력해주세요."},
+
+
+
+
+
 }

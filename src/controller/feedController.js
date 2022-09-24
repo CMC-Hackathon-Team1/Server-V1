@@ -1,4 +1,4 @@
-const feedService = require('../service/feed.service');
+const feedService = require('../service/feedService');
 
 const baseResponse = require('../utility/baseResponseStatus');
 const { errResponse, response } = require('../utility/response');
@@ -12,6 +12,27 @@ class feedController {
         this.feedService = new feedService();
     }
 
+    getFeedList = async (req, res) => {
+
+        let { profileId } = req.query;
+        
+        // Validation
+        if (!profileId){
+            return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
+        }
+        if (profileId <= 0){
+            return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
+        }
+
+        const retrieveFeedListResult = await this.feedService.retrieveFeedList(profileId);
+    
+        return res.send(retrieveFeedListResult);
+    }
+
+    
+
 }
 
 module.exports = feedController;
+
+
