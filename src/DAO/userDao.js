@@ -111,6 +111,53 @@ class userDAO {
 
         return selectResult;
     }
+
+    getUserMyPageData = async (conn, profileId, year, month) => {
+        const getUserMyPageDataQuery = `
+        SELECT
+       F.feedId,
+       Profiles.profileId,
+       IFNULL(LCT.likeCount,0) as likeCount,
+       Profiles.userId,
+       P.personaId,
+       Profiles.profileImgUrl,
+       Profiles.statusMessage,
+       Profiles.profileName,
+       P.personaName,
+       F.content,
+       IF(IsLike.feedId,true,false) as isLike,
+       DATE_FORMAT(F.createdAt,"%Y/%m/%d") as createdAt,
+       IFNULL(GROUP_CONCAT(HTINFO.hashTagName separator '#'),null) as hashTagStr
+       FROM Profiles
+            INNER JOIN Persona as P ON Profiles.personaId = P.personaId
+            RIGHT JOIN Feeds as F ON Profiles.profileId = F.profileId
+            LEFT JOIN (
+                SELECT feedId,COUNT(feedId) as likeCount FROM Likes GROUP BY profileId
+        )as LCT on F.feedId=LCT.feedId
+        LEFT JOIN (
+                  SELECT Feeds.feedId,
+                   HT.hashTagId,
+                   hashTagName
+                FROM Feeds
+                RIGHT JOIN FeedHashTagMapping FHTM on Feeds.feedId = FHTM.feedId
+                LEFT JOIN HashTags HT on FHTM.hashTagId = HT.hashTagId
+        )as HTINFO on F.feedId=HTINFO.feedId
+        LEFT JOIN (
+            SELECT Likes.feedId as feedId FROM Likes
+            LEFT JOIN Likes L on Likes.feedId = L.feedId
+            where L.profileId=${profileId}
+            GROUP BY L.feedId
+       )as IsLike on IsLike.feedId=F.feedId
+        WHERE Profiles.profileId = ${profileId}
+        GROUP BY F.feedId;
+        `;
+
+        const [getUserMyPageDataResult] = await conn.query(getUserMyPageDataQuery, profileId);
+
+        console.log(getUserMyPageDataResult);
+
+        return getUserMyPageDataResult;
+    }
 }
 
     
