@@ -2,6 +2,7 @@ class userDAO {
 
     cosntructor(){}
 
+
     createPersonaByUserId = async (conn, userId, personaId, nickname, introduction, profileImgUrl) => {
         const createPersonaQuery = `
             INSERT INTO Profiles (userId, personaId, profileImgUrl, statusMessage, profileName)
@@ -26,6 +27,21 @@ class userDAO {
 
         return checkPersonaResult;
     }
+
+    retrieveUserProfiles = async (conn,userId) => {
+        const retrieveUserProfilesQuery = `SELECT profileId,profileImgUrl,profileName FROM Profiles
+        RIGHT JOIN Users U on Profiles.userId = U.userId
+        WHERE U.userId=${userId}
+        LIMIT 3;`;
+
+        const [profileRow] = await conn.query(retrieveUserProfilesQuery);
+
+        console.log(retrieveUserProfilesQuery);
+        console.log(profileRow);
+
+        return profileRow;
+    }
+
 }
 
 
