@@ -9,8 +9,6 @@ const userRouter = (router) =>{
 
     router.get('/feeds', function(req, res) { res.send('pong'); });
 
-    router.post('/users/create', this.userController.createPersona);
-
     router.get('/users/:profileId/profile/statistics',this.userController.getUserStatics);
 
     router.get('/users/:userId/profile',this.userController.getUserProfiles);
@@ -18,6 +16,7 @@ const userRouter = (router) =>{
     // 사용자의 다른 페르소나 가져오기
     router.get('/users/persona', this.userController.changePersona);
     
+
     router.get('/users/:profileId', this.userController.userMyPage);
 
 };
