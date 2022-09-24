@@ -391,7 +391,119 @@ paths:
           description: 비밀번호는 6~20자리를 입력해주세요
         '223':
           description: 비밀번호는 특수문자를 포함해야 합니다.
-# 게시글 수정 및 삭제
+
+
+# 한달간 공감, 글, 팔로우 횟수 count API
+  /api/users/{userId}/profile/statistics:
+    get:
+      tags:
+        - User
+      summary: 한달간 공감, 글, 팔로우 횟수 count API
+      parameters:
+          - in: path
+            name: userId
+            default: 1
+            schema :
+                type: integer
+            example: 1
+            required: true
+            description: 유저 인덱스
+      responses:
+        '100':
+          description: 로그인 성공
+          content: 
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  isSuccess: 
+                    example: true
+                  code:
+                    example: 100
+                  message:
+                    example: 성공
+        '212':
+          description: userId를 입력해주세요
+        '227':
+          description: userId는 최대 20자리를 입력해주세요
+        '228':
+          description: userId는 최대 3자리 이상 입력해주세요
+        '221':
+          description: 비밀번호를 입력 해주세요.
+        '222':
+          description: 비밀번호는 6~20자리를 입력해주세요
+        '223':
+          description: 비밀번호는 특수문자를 포함해야 합니다.
+
+# 게시글 쓰기
+  /api/feeds/feed:
+    post:
+      tags:
+        - Feed
+      summary: 게시글 쓰기
+      parameters:
+        - in: body
+          name: CreateFeed
+          description: 게시글 생성 파라미터
+          schema:
+              type: object
+              required:
+                - category
+                - hashtag
+                - content
+                - status
+                - imgUrl
+              properties:
+                    category:
+                        description: 카테고리 명입니다. 정해진 카테고리 명만 입력하세요.
+                        type: String
+                        default: "문화 및 예술"
+                    hashtag:
+                        description: 하나의 String 안에 ‘, ‘를 기준으로 여러 해시태그를 넣어도 됩니다. (꼭 쉼표+빈칸 한칸 으로 구분해야함) 하나만 넣어도 됩니다. 근데 아직 해시태그 기능은 완벽하지 않습니다!
+                        type: String
+                        default: "#개발"
+                    content:
+                        description: 게시물 내용
+                        type: String
+                        default: "게시물 내용을 입력합니다~!"
+                    status:
+                        description: 비공개 설정 여부 입니다. ('private' or 'active')
+                        type: String
+                        default: "private"
+                    imgUrl:
+                        description: 게시글 이미지
+                        type: String
+                        default: "ProfileImgUrl"
+      responses:
+        '100':
+          description: 로그인 성공
+          content: 
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  isSuccess: 
+                    example: true
+                  code:
+                    example: 100
+                  message:
+                    example: 성공
+        '212':
+          description: userId를 입력해주세요
+        '227':
+          description: userId는 최대 20자리를 입력해주세요
+        '228':
+          description: userId는 최대 3자리 이상 입력해주세요
+        '221':
+          description: 비밀번호를 입력 해주세요.
+        '222':
+          description: 비밀번호는 6~20자리를 입력해주세요
+        '223':
+          description: 비밀번호는 특수문자를 포함해야 합니다.
+
+
+
+# 게시글 삭제
   /api/feeds/feed/{feedId}:
     delete:
       tags:
@@ -542,6 +654,7 @@ paths:
           description: 비밀번호는 6~20자리를 입력해주세요
         '223':
           description: 비밀번호는 특수문자를 포함해야 합니다.
+
   
   /api/feeds/like:
     post:
@@ -661,3 +774,5 @@ paths:
           description: 비밀번호는 6~20자리를 입력해주세요
         '223':
           description: 비밀번호는 특수문자를 포함해야 합니다.
+
+
