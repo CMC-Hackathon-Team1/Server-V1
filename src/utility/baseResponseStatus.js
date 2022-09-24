@@ -11,6 +11,7 @@ module.exports = {
 
     YEAR_RANGE_OUT:{ "isSuccess": false, "code": 200, "message": "연도 범위 벗어났습니다.1900~2100년 사이로 넘겨주세요" },
     MONTH_RANGE_OUT:{ "isSuccess": false, "code": 201, "message": "월 범위 벗어났습니다.1월~12월 사이로 넘겨주세요" },
+    USER_USERIDX_MINUS_INTEGER:{ "isSuccess": false, "code": 201, "message": "userId 음수는 안됩니다." },
     //Request error
     
     SIGNIN_ERROR : {"isSuccess": false, "code": 199, "message": "회원가입을 해주세요"},

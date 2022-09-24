@@ -19,6 +19,27 @@ class userService {
         // this.UserRepository = new UserRepository();
     }
 
+    retrieveUserProfiles = async (userId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            
+            
+            const retrieveUserProfilesResult = await this.userDAO.retrieveUserProfiles(connection,userId);
+    
+            console.log(retrieveUserProfilesResult);
+    
+            await connection.commit();
+            
+            return response(baseResponse.SUCCESS, retrieveUserProfilesResult);
+        } catch (e) {
+            console.log(e);
+    
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
 
 }
 
