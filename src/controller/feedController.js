@@ -129,7 +129,7 @@ class feedController {
 
         return res.send(feedDeleteResult);
     }
-
+    
     // 글 수정
     patchFeed = async (req, res) => {
         const profileId = 1;    // 더미 id
@@ -143,6 +143,48 @@ class feedController {
         const feedUpdateResult = await this.feedService.updateFeedInfo(profileId, feedId, category, hashtag, content, status);
 
         return res.send(feedUpdateResult);
+    }
+
+    // 게시글 좋아요
+    postFeedLike = async (req, res) => {
+        const { feedId, profileId } = req.body;
+
+        if (!feedId) {
+            return res.send(errResponse(baseResponse.USER_FEEDID_EMPTY));
+        } else if (feedId < 0) {
+            return res.send(errResponse(baseResponse.USER_FEEDID_LENGTH));
+        }
+
+        if (!profileId) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
+        } else if (profileId < 0) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
+        }
+
+        const FeedLikeResult = await this.feedService.createFeedLike(feedId, profileId);
+
+        return res.send(FeedLikeResult);
+    }
+
+    // 게시글 좋아요 취소
+    deleteFeedLike = async (req, res) => {
+        const { feedId, profileId } = req.body;
+
+        if (!feedId) {
+            return res.send(errResponse(baseResponse.USER_FEEDID_EMPTY));
+        } else if (feedId < 0) {
+            return res.send(errResponse(baseResponse.USER_FEEDID_LENGTH));
+        }
+
+        if (!profileId) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
+        } else if (profileId < 0) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
+        }
+
+        const deleteFeedLikeResult = await this.feedService.removeFeedLike(feedId, profileId);
+
+        return res.send(deleteFeedLikeResult);
     }
 
 }
