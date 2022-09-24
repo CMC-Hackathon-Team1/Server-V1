@@ -580,6 +580,8 @@ paths:
                     example: 100
                   message:
                     example: 성공
+        '500':
+          description: 해당 게시글에 대한 좋아요가 존재함
     delete:
       tags:
         - Feed
@@ -616,7 +618,8 @@ paths:
                     example: 100
                   message:
                     example: 성공
-    
+        '501':
+          description: 해당하는 게시글의 좋아요가 존재하지 않음
 
 # 공지사항
   /api/notice?page={page}:
