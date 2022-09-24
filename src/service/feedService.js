@@ -20,16 +20,33 @@ class feedService {
     }
 
     // API 2.4 - 게시물 (최신순으로) 리스트 조회
-    retrieveFeedList = async (profileId) => {
+    retrieveFeedList = async (profileId, page, pageSize) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const feedListResult = await this.feedDAO.selectFeedList(connection, profileId);
-            return response(baseResponse.SUCCESS, feedListResult);
+
+            let start = 0;
+        
+            // Paging Validation
+            if (page <= 0){
+                page = 1;
+            } else {
+                start = (page - 1) * pageSize;
+            }
+
+            const totalDataCountResult = await this.feedDAO.retrieveTotalDataCount(connection, profileId);
+            const lastPage = Math.ceil(totalDataCountResult[0].totalDataCount/ pageSize);
+
+            // DB 조회
+            const feedListQuery = [profileId , start, parseInt(pageSize)];
+            const feedListResult = await this.feedDAO.selectFeedList(connection, feedListQuery);
+
+            const feedListWithPaging = {feedListResult, lastPage};
+            return response(baseResponse.SUCCESS, feedListWithPaging);
 
         } catch (e) {
             console.log(e);
             return errResponse(baseResponse.DB_ERROR);
-   
+            
         } finally {
             connection.release();
         }
@@ -57,6 +74,27 @@ class feedService {
             connection.release();
         }
     }
+    // API 2.9 게시물 내용 조회
+    retrieveFeedInfo = async (profileId, feedId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+
+            // DB 조회
+            const feedInfoQuery = [profileId, feedId];
+            const feedInfoResult = await this.feedDAO.selectFeedInfo(connection, feedInfoQuery);
+
+            return response(baseResponse.SUCCESS, feedInfoResult);
+
+        } catch (e) {
+            console.log(e);
+            return errResponse(baseResponse.DB_ERROR);
+            
+        } finally {
+            connection.release();
+        }
+    }
+
+    
     
 }
 
