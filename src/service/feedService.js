@@ -33,6 +33,7 @@ class feedService {
         } finally {
             connection.release();
         }
+    }
 
     retrieveMyFeedDate = async (year,month) => {
         const connection = await pool.getConnection(async (connection) => connection);
