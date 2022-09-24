@@ -1,4 +1,4 @@
-const feedService = require('../service/feed.service');
+const feedService = require('../service/feedService');
 
 const baseResponse = require('../utility/baseResponseStatus');
 const { errResponse, response } = require('../utility/response');
@@ -10,6 +10,26 @@ class feedController {
 
     constructor (){
         this.feedService = new feedService();
+    }
+
+    getCalendarInfo = async (req, res) => {
+
+        let { year,month } = req.query;
+        
+        console.log(year,month);
+        console.log(year>1900);
+        if (!(year>=1900 && year <=2100)){ //2000년도~300년도
+            return res.send(errResponse(baseResponse.YEAR_RANGE_OUT));
+        }
+        if (!(month>=1 && month<=12)) { // 1월~ 12월
+            return res.send(errResponse(baseResponse.MONTH_RANGE_OUT));
+        }
+        
+        const myFeedDate = await this.feedService.retrieveMyFeedDate(year,month);
+    
+        console.log("넘어왔을꺼 같진 않은데 그지?");
+        
+        return res.send(myFeedDate);
     }
 
 }
