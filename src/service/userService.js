@@ -1,4 +1,4 @@
-const userDAO = require('../DAO/userDAO');
+const userDAO = require('../DAO/userDao');
 
 const { pool } = require('../config/db');
 
@@ -52,7 +52,8 @@ class userService {
 
             await connection.commit();
 
-            return response(baseResponse.SUCCESS, { "profileId": createPersona.insertId });
+
+            return response(baseResponse.SUCCESS, {"profileId": createPersona.insertId});
         } catch (e) {
             console.log(e);
             await connection.rollback();
@@ -69,8 +70,7 @@ class userService {
 
         try {
             await connection.beginTransaction();
-
-            // 사용자 ID를 통해 해당 사용자의 페르소나 갯수 확인
+            
             const checkPersonaCount = await this.userDAO.checkPersona(connection, userId);
 
             await connection.commit();
@@ -80,6 +80,71 @@ class userService {
             console.log(e);
             await connection.rollback();
 
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    changeUserPersona = async ( profileId ) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            // 사용자의 다른 페르소나를 가지고 온 결과
+            const changedUserPersona = await this.userDAO.selectUserOtherPersona(connection, profileId);
+
+            // 사용자 이름
+            const userProfileResult = await this.userDAO.selectProfileNameByProfileId(connection, profileId);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS, { 
+                personaId: changedUserPersona[0].personaId,
+                userProfileName: userProfileResult[0].profileName,
+                personaName : changedUserPersona[0].personaName
+            });
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    retrieveUserStatics = async (profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            
+            const userStatics={};
+
+            const userLikeCount=await this.userDAO.retrieveUserLikeCount(connection,profileId);
+
+            console.log(userLikeCount);
+            userStatics.likeCount=userLikeCount.likeCount;
+
+
+            const userFeedCount = await this.userDAO.retrieveUserFeedCount(connection,profileId);
+    
+            console.log(userFeedCount);
+            userStatics.feedCount=userFeedCount.feedCount;
+
+            
+            const userFollowCount = await this.userDAO.retrieveUserFollowCount(connection,profileId);
+    
+            console.log(userFollowCount);
+            userStatics.followCount=userFollowCount.followCount;
+
+            
+
+            await connection.commit();
+            
+            return response(baseResponse.SUCCESS, userStatics);
+        } catch (e) {
+            console.log(e);
+    
             return errResponse(baseResponse.DB_ERROR);
         } finally {
             connection.release();
@@ -106,7 +171,7 @@ class userService {
         } finally {
             connection.release();
         }
-    }
+    }    
 }
 
 module.exports = userService;

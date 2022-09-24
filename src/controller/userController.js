@@ -16,14 +16,13 @@ class userController {
     // 회원 상세 정보 보기
     getUserProfiles = async (req, res) => {
         const userId = req.params.userId;
-        if (!userId) {
+        if (!userId){
             return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
         } else if (userId < 1) {
             return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
         }
-
         const retrieveUserProfilesResult = await this.userService.retrieveUserProfiles(userId);
-
+    
         return res.send(retrieveUserProfilesResult);
     }
     createPersona = async (req, res) => {
@@ -50,7 +49,7 @@ class userController {
 
         const checkUserPersonaCount = await this.userService.checkUserPersona(userId);
 
-        if (checkUserPersonaCount[0].count >= 3) {
+       if (checkUserPersonaCount[0].count >= 3) {
             return res.send(errResponse(baseResponse.PERSONA_COUNT_OVER));
         };
 
@@ -58,6 +57,35 @@ class userController {
 
         return res.send(createPersonaResult);
     };
+
+    // 페르소나 수정
+    changePersona = async (req, res) => {
+        const profileId = req.query.profileId;
+
+        if (!profileId) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
+        } else if (profileId < 0) {
+            return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
+        }
+
+        const changedResult = await this.userService.changeUserPersona(profileId);
+
+        return res.send(changedResult);
+    }
+    
+    getUserStatics = async (req, res) => {
+        const profileId = req.params.profileId;
+
+        if (!profileId){
+            return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
+        } else if (profileId < 1) {
+            return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
+        }
+
+        const retrieveUserStatics = await this.userService.retrieveUserStatics(profileId);
+    
+        return res.send(retrieveUserStatics);
+    }
 
     // 페르소나 마이페이지
     userMyPage = async (req, res) => {
@@ -76,6 +104,7 @@ class userController {
 
         return res.send(userMyPageResult);
     }
+    
 };
 
 module.exports = userController;

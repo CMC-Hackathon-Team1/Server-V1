@@ -8,9 +8,11 @@ module.exports = {
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 300, "message": "JWT 토큰 검증 실패" },
     TOKEN_VERIFICATION_SUCCESS : { "isSuccess": true, "code": 101, "message": "JWT 토큰 검증 성공" },
     ACCESS_TOKEN_EMPTY : { "isSuccess" : false, "code": 308, "message": "refresh token 만료, 새 AccessToken이 필요합니다."},
-
+    
     YEAR_RANGE_OUT:{ "isSuccess": false, "code": 200, "message": "연도 범위 벗어났습니다.1900~2100년 사이로 넘겨주세요" },
     MONTH_RANGE_OUT:{ "isSuccess": false, "code": 201, "message": "월 범위 벗어났습니다.1월~12월 사이로 넘겨주세요" },
+    DAY_RANGE_OUT:{"isSuccess": false, "code": 210, "message": "일 범위 벗어났습니다.1일 ~ 31일 사이로 넘겨주세요"},
+
     USER_USERIDX_MINUS_INTEGER:{ "isSuccess": false, "code": 201, "message": "userId 음수는 안됩니다." },
     //Request error
     SIGNIN_ERROR : {"isSuccess": false, "code": 199, "message": "회원가입을 해주세요"},
@@ -96,9 +98,9 @@ module.exports = {
     // Connection, Transaction 등의 서버 오류
     DB_ERROR : { "isSuccess": false, "code": 400, "message": "데이터 베이스 에러"},
     SERVER_ERROR : { "isSuccess": false, "code": 401, "message": "서버 에러"},
-    // Admin Page Error
-    REPORT_POSTREPORTIDX_EMPTY : { "isSuccess": false, "code": 500, "message": "postReportIdx를 입력해주세요"},
-    REPORT_POSTREPORTIDX_LENGTH : { "isSuccess": false, "code": 501, "message": "postReportIdx는 0보다 큰 값으로 입력해주세요." },
+    // 이준희 추가 에러
+    PERSONA_ID_NULL : {"isSuccess": false, "code": 500, "message": "personaId를 입력해주세요."},
+    PERSONA_ID_NEGATIVE : {"isSuccess": false, "code": 501, "message": "personaID는 0보다 큰 값을 입력해주세요."},
 
     REPORT_COMMENTREPORT_EMPTY : { "isSuccess": false, "code": 502, "message": "commentReportIdx를 입력해주세요"},
     REPORT_COMMENTREPORT_LENGTH: { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
@@ -115,6 +117,14 @@ module.exports = {
     USER_PROFILEID_LENGTH :{ "isSuccess": false, "code": 3001, "message": "profileId를 0보다 큰 값을 입력해주세요."},
     USER_PERSONAID_EMPTY :{ "isSuccess": false, "code": 3002, "message": "personaId를 입력해주세요."},
     USER_PERSONAID_LENGTH :{ "isSuccess": false, "code": 3003, "message": "personaId를 0보다 큰 값을 입력해주세요."},
+    PAGING_PARAMS_EMPTY :{ "isSuccess": false, "code": 3004, "message": "paging 파라미터를 입력해주세요."},
+
+    USER_FEEDID_EMPTY :{ "isSuccess": false, "code": 3005, "message": "feedId를 입력해주세요."},
+    USER_FEEDID_LENGTH :{ "isSuccess": false, "code": 3006, "message": "feedId를 0보다 큰 값으로 입력해주세요."},
+
+
+
+
 
 
 }
