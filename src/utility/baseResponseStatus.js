@@ -9,7 +9,9 @@ module.exports = {
     TOKEN_VERIFICATION_SUCCESS : { "isSuccess": true, "code": 101, "message": "JWT 토큰 검증 성공" },
     ACCESS_TOKEN_EMPTY : { "isSuccess" : false, "code": 308, "message": "refresh token 만료, 새 AccessToken이 필요합니다."},
 
-
+    YEAR_RANGE_OUT:{ "isSuccess": false, "code": 200, "message": "연도 범위 벗어났습니다.1900~2100년 사이로 넘겨주세요" },
+    MONTH_RANGE_OUT:{ "isSuccess": false, "code": 201, "message": "월 범위 벗어났습니다.1월~12월 사이로 넘겨주세요" },
+    USER_USERIDX_MINUS_INTEGER:{ "isSuccess": false, "code": 201, "message": "userId 음수는 안됩니다." },
     //Request error
     SIGNIN_ERROR : {"isSuccess": false, "code": 199, "message": "회원가입을 해주세요"},
     SIGNIN_PASSWORD_TYPE : { "isSuccess": false, "code": 201, "message":"소셜 로그인 유저입니다" },
@@ -67,7 +69,7 @@ module.exports = {
     REPORT_POST_MYSELF : { "isSuccess": false, "code": 272, "message": "본인이 작성한 게시글입니다" },
     REPORT_COMMENT_MYSELF : { "isSuccess": false, "code": 273, "message": "본인이 작성한 댓글입니다" },
 
-    PAGENATION_ERROR : {"isSuccess": false, "code": 290, "message": "보고싶은 페이지를 입력해주세요. "},
+    PAGENATION_ERROR : {"isSuccess": false, "code": 290, "message": "페이지네이션 숫자를 확인해주세요. "},
     REQUEST_CODE_EMPTY : { "isSuccess": false, "code": 291, "message": "요청코드를 입력해주세요." },
     REQUEST_CODE_ERROR: { "isSuccess": false, "code": 293, "message": "요청코드를 정확히 입력해주세요." },
     ADMIN_DATE_REGEX : { "isSuccess": false, "code": 294, "message": " 날짜 형식이 옳지 않습니다." },

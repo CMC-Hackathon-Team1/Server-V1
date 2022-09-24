@@ -7,14 +7,10 @@ info:
 tags:
   - name: User
     description: 유저 도메인 관련 API들
-  - name: Comment
-    description: 댓글 도메인 관련 API들
-  - name: Post
-    description: 게시글 도메인 관련 API들
-  - name: Message
-    description: 메시지 도메인 관련 API들
-  - name: Admin
-    description: 관리자 전용 API들
+  - name: Feed
+    description: 피드 도메인 관련 API들
+  - name: Notice
+    descripion: 공지 도메인 관련 API들
 paths:
   /api/user/login:
     post:

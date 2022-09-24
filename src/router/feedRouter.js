@@ -11,6 +11,10 @@ const feedRouter = (router) =>{
     */
     router.get('/feeds/feedList', this.feedController.getFeedList);
 
+     // 회원 전체 정보 보기
+     router.get('/calendars', this.feedController.getCalendarInfo);
+    
+    
 
 };
 

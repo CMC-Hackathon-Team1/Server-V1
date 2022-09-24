@@ -3,7 +3,7 @@
 ```
 📂 git@iamjooon2/GridgeTestChallenge
   ┣📂 src
-    ┣📂 asset # 도커를 이용하여 데이터베이스 띄우는 디렉토리 
+    ┣📂 config # db connection option
     ┣📂 controller # req->검사->service && service->검사->res, Controller Layer
     ┣📂 middleware # 미들웨어들을 짱박아둔 디렉토리
     ┣📂 DAO # DB 접근하는 디렉토리, DataManager Layer
