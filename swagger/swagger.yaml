@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: GridgeTestChallenge
-  description: '그릿지테스트챌린지 API 명세서'
+  title: CMC-Hackathon-Team1-API
+  description: '해커톤 TEAM1 API 명세서'
 
 tags:
   - name: User

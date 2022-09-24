@@ -1,7 +1,4 @@
-const AdminRepository = require('../repository/admin.repository');
-const CommentRepository = require('../repository/comment.repository');
-const PostRepository = require('../repository/comment.repository');
-const UserRepository = require('../repository/user.repository');
+const AdminDAO = require('../repository/admin.DAO');
 
 const { pool } = require('../asset/db');
 
@@ -10,16 +7,16 @@ const { errResponse, response } = require('../utility/response');
 
 class AdminService {
 
-    AdminRepository;
-    CommentRepository;
-    PostRepository;
-    UserRepository;
+    AdminDAO;
+    // CommentRepository;
+    // PostRepository;
+    // UserRepository;
 
     constructor() {
-        this.AdminRepository = new AdminRepository();
-        this.CommentRepository = new CommentRepository();
-        this.PostRepository = new PostRepository();
-        this.UserRepository = new UserRepository();
+        this.AdminDAO = new AdminDAO();
+        // this.CommentRepository = new CommentRepository();
+        // this.PostRepository = new PostRepository();
+        // this.UserRepository = new UserRepository();
     }
 
     // 사용자 목록 조회
@@ -45,11 +42,11 @@ class AdminService {
                 whereQuery += ` AND DATE(createdAt) = DATE(${date})`;
             }
     
-            const adminSelectResult = await this.AdminRepository.selectUserList(connection, whereQuery, offset);
+            const adminSelectResult = await this.AdminDAO.selectUserList(connection, whereQuery, offset);
     
             // 로그 디비 넣기
             for (i=0; i<adminSelectResult.length; i+=1){
-                await this.UserRepository.insertUserLog(connection, adminSelectResult[i].userIdx, 6);
+                // await this.UserRepository.insertUserLog(connection, adminSelectResult[i].userIdx, 6);
             }
     
             await connection.commit();
@@ -71,17 +68,17 @@ class AdminService {
         try {
             await connection.beginTransaction();
 
-            const userLastLoginTime = await this.AdminRepository.selectUserLastLoginTime(connection, userIdx);
-            const userPosts = await this.AdminRepository.selectUserPostByUserIdx(connection, userIdx);
-            const userPostImg = await this.AdminRepository.selectUserProfileImgByUserIdx(connection, userIdx);
-            const userPostLikes = await this.AdminRepository.selectUserPostLikeByUserIdx(connection, userIdx);
-            const userPostReports = await this.AdminRepository.selectUserPostReportByUserIdx(connection, userIdx);
-            const userComments = await this.AdminRepository.selectUserCommentByUserIdx(connection, userIdx);
-            const userCommentLikes = await this.AdminRepository.selectUserCommentLikeByUserIdx(connection, userIdx);
-            const userCommentRepoerts = await this.AdminRepository.selectUserCommentReportByUserIdx(connection, userIdx);
-            const userFollowingMembers = await this.AdminRepository.selectUserFollowingByUserIdx(connection, userIdx);
-            const userFollowerMembers = await this.AdminRepository.selectUserFollowerByUserIdx(connection, userIdx);
-            const userMessages = await this.AdminRepository.selectUserMessageByUserIdx(connection, userIdx);
+            const userLastLoginTime = await this.AdminDAO.selectUserLastLoginTime(connection, userIdx);
+            const userPosts = await this.AdminDAO.selectUserPostByUserIdx(connection, userIdx);
+            const userPostImg = await this.AdminDAO.selectUserProfileImgByUserIdx(connection, userIdx);
+            const userPostLikes = await this.AdminDAO.selectUserPostLikeByUserIdx(connection, userIdx);
+            const userPostReports = await this.AdminDAO.selectUserPostReportByUserIdx(connection, userIdx);
+            const userComments = await this.AdminDAO.selectUserCommentByUserIdx(connection, userIdx);
+            const userCommentLikes = await this.AdminDAO.selectUserCommentLikeByUserIdx(connection, userIdx);
+            const userCommentRepoerts = await this.AdminDAO.selectUserCommentReportByUserIdx(connection, userIdx);
+            const userFollowingMembers = await this.AdminDAO.selectUserFollowingByUserIdx(connection, userIdx);
+            const userFollowerMembers = await this.AdminDAO.selectUserFollowerByUserIdx(connection, userIdx);
+            const userMessages = await this.AdminDAO.selectUserMessageByUserIdx(connection, userIdx);
     
             await this.UserRepository.insertUserLog(connection, userIdx, 6);
     
@@ -116,7 +113,7 @@ class AdminService {
     sudoBanUser = async (userIdx) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            const adminSelectResult = await this.AdminRepository.updateUserStatus(connection, userIdx);
+            const adminSelectResult = await this.AdminDAO.updateUserStatus(connection, userIdx);
             await this.UserRepository.insertUserLog(connection, userIdx, 5);
             
             await connection.commit();
@@ -151,7 +148,7 @@ class AdminService {
                 whereQuery += ` AND DATE(createdAt) = DATE(${date})`
             }
 
-            const adminSelectResult = await this.AdminRepository.selectPostList(connection, whereQuery, offset);
+            const adminSelectResult = await this.AdminDAO.selectPostList(connection, whereQuery, offset);
 
             // 로그 집어넣기
             for (i =0; i<adminSelectResult.length; i+=1){
@@ -177,11 +174,11 @@ class AdminService {
         try {
             await connection.beginTransaction();
 
-            const postResult = await this.AdminRepository.selectPostByPostIdx(connection, postIdx);
-            const postImgResult = await this.AdminRepository.selectPostImgByPostIdx(connection, postIdx);
-            const postLikeResult = await this.AdminRepository.selectPostLikeByPostIdx(connection, postIdx);
-            const postReportResult = await this.AdminRepository.selectPostReportByPostIdx(connection, postIdx);
-            const postCommentResult = await this.AdminRepository.selectPostCommentByPostIdx(connection, postIdx);
+            const postResult = await this.AdminDAO.selectPostByPostIdx(connection, postIdx);
+            const postImgResult = await this.AdminDAO.selectPostImgByPostIdx(connection, postIdx);
+            const postLikeResult = await this.AdminDAO.selectPostLikeByPostIdx(connection, postIdx);
+            const postReportResult = await this.AdminDAO.selectPostReportByPostIdx(connection, postIdx);
+            const postCommentResult = await this.AdminDAO.selectPostCommentByPostIdx(connection, postIdx);
 
             await this.PostRepository.insertPostLog(connection, postIdx, 5);
 
@@ -208,9 +205,9 @@ class AdminService {
         try {
             await connection.beginTransaction();
 
-            const postStatusResult = await this.AdminRepository.updatePostStatus(connection, postIdx);
-            const commentsOfPostResult = await this.AdminRepository.selectCommentIdxByPostIdx(connection, postIdx);
-            const commentStatusResult = await this.AdminRepository.updateCommentStatusByPostIdx(connection, postIdx);
+            const postStatusResult = await this.AdminDAO.updatePostStatus(connection, postIdx);
+            const commentsOfPostResult = await this.AdminDAO.selectCommentIdxByPostIdx(connection, postIdx);
+            const commentStatusResult = await this.AdminDAO.updateCommentStatusByPostIdx(connection, postIdx);
 
             await this.PostRepository.insertPostLog(connection, postIdx, 4);
             for (i = 0; i<commentsOfPostResult.length; i+=1){
@@ -235,7 +232,7 @@ class AdminService {
         try {
             await connection.beginTransaction();
             
-            await this.AdminRepository.updatePostStatus(connection, postIdx);
+            await this.AdminDAO.updatePostStatus(connection, postIdx);
 
             await this.PostRepository.insertPostLog(connection, postIdx, 4);
 
@@ -258,7 +255,7 @@ class AdminService {
         try {
             await connection.beginTransaction();
 
-            await this.AdminRepository.updateCommentStatusByCommentIdx(connection, commentIdx);
+            await this.AdminDAO.updateCommentStatusByCommentIdx(connection, commentIdx);
             await this.CommentRepository.insertCommetLog(connection, commentIdx, 4);
 
             await connection.commit();
@@ -279,8 +276,8 @@ class AdminService {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             await connection.beginTransaction();
-            const postReportResult = await this.AdminRepository.selectPostReports(connection);
-            const commentReportResult = await this.AdminRepository.selectCommentReports(connection);
+            const postReportResult = await this.AdminDAO.selectPostReports(connection);
+            const commentReportResult = await this.AdminDAO.selectCommentReports(connection);
 
             for (i = 0; i<postReportResult.length; i+=1){
                 await this.PostRepository.insertReportLog(connection, 7, postReportResult[i].postReportIdx,1, 5);
@@ -310,7 +307,7 @@ class AdminService {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             await connection.beginTransaction();
-            const postReportResult = await this.AdminRepository.selectReportPostContent(connection, postIdx);
+            const postReportResult = await this.AdminDAO.selectReportPostContent(connection, postIdx);
 
             await this.PostRepository.insertPostLog(connection, postIdx, 4);
             
@@ -333,7 +330,7 @@ class AdminService {
         try {
             await connection.beginTransaction();
 
-            const commentReportResult = await this.AdminRepository.selectReportCommentContent(connection, commentIdx);
+            const commentReportResult = await this.AdminDAO.selectReportCommentContent(connection, commentIdx);
 
             await this.CommentRepository.insertCommetLog(connection, commentIdx, 4);
 
@@ -355,7 +352,7 @@ class AdminService {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             await connection.beginTransaction();
-            const postReportResult = await this.AdminRepository.selectReportPostReportCode(connection, postIdx);
+            const postReportResult = await this.AdminDAO.selectReportPostReportCode(connection, postIdx);
 
             await this.PostRepository.insertReportLog(connection,7, postReportResult[0].postReportIdx, 1, 5);
 
@@ -377,7 +374,7 @@ class AdminService {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             await connection.beginTransaction();
-            const commentReportResult = await this.AdminRepository.selectReportCommentReportCode(connection, commentIdx);
+            const commentReportResult = await this.AdminDAO.selectReportCommentReportCode(connection, commentIdx);
 
             await this.CommentRepository.insertReportLog(connection, commentReportResult[0].commentReportIdx, 1, 0, 5);
 
@@ -399,7 +396,7 @@ class AdminService {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             await connection.beginTransaction();
-            const postReportResult = await this.AdminRepository.updatePostReportStatus(connection, postReportIdx);
+            const postReportResult = await this.AdminDAO.updatePostReportStatus(connection, postReportIdx);
 
             await this.PostRepository.insertReportLog(connection, 7, postReportIdx, 0, 4);
 
@@ -420,7 +417,7 @@ class AdminService {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
             await connection.beginTransaction();
-            const commentReportResult = await this.AdminRepository.updateCommentReportStatus(connection, commentReportIdx);
+            const commentReportResult = await this.AdminDAO.updateCommentReportStatus(connection, commentReportIdx);
 
             await this.CommentRepository.insertReportLog(connection, commentReportIdx, 1,  1, 4);
 
@@ -444,7 +441,7 @@ class AdminService {
             await connection.beginTransaction();
 
             const offset = (page-1)*10;
-            const logResults = await this.AdminRepository.selectUserLogs(connection, offset);
+            const logResults = await this.AdminDAO.selectUserLogs(connection, offset);
 
             await connection.commit();
             
@@ -466,7 +463,7 @@ class AdminService {
             await connection.beginTransaction();
 
             const offset = (page-1)*10;
-            const logResults = await this.AdminRepository.selectPostLogs(connection, offset);
+            const logResults = await this.AdminDAO.selectPostLogs(connection, offset);
 
             await connection.commit();
 
@@ -488,7 +485,7 @@ class AdminService {
             await connection.beginTransaction();
 
             const offset = (page-1)*10;
-            const logResults = await this.AdminRepository.selectCommentLogs(connection, offset);
+            const logResults = await this.AdminDAO.selectCommentLogs(connection, offset);
 
             await connection.commit();
 
@@ -510,7 +507,7 @@ class AdminService {
             await connection.beginTransaction();
 
             const offset = (page-1)*10;
-            const logResults = await this.AdminRepository.selectReportLogs(connection, offset);
+            const logResults = await this.AdminDAO.selectReportLogs(connection, offset);
 
             await connection.commit();
 
