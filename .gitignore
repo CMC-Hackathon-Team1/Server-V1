@@ -2,3 +2,4 @@
 .env
 package-lock.json
 temp.js
+.idea

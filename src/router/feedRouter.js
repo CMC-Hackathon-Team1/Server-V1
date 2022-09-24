@@ -6,6 +6,8 @@ const feedRouter = (router) =>{
 
     router.get('/feeds', function(req, res) { res.send('pong'); });
 
+    router.post('/feeds/feed', this.feedController.postFeed);
+
 };
 
 module.exports = feedRouter;
