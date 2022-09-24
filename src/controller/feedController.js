@@ -12,6 +12,25 @@ class feedController {
         this.feedService = new feedService();
     }
 
+    getFeedList = async (req, res) => {
+
+        let { profileId } = req.query;
+        
+        // Validation
+        if (!profileId){
+            return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
+        }
+        if (profileId <= 0){
+            return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
+        }
+
+        const retrieveFeedListResult = await this.feedService.retrieveFeedList(profileId);
+    
+        return res.send(retrieveFeedListResult);
+    }
+
+    
+
     getCalendarInfo = async (req, res) => {
 
         let { year,month } = req.query;
@@ -35,3 +54,5 @@ class feedController {
 }
 
 module.exports = feedController;
+
+
