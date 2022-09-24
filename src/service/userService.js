@@ -52,7 +52,8 @@ class userService {
 
             await connection.commit();
 
-            return response(baseResponse.SUCCESS);
+
+            return response(baseResponse.SUCCESS, {"profileId": createPersona.insertId});
         } catch (e) {
             console.log(e);
             await connection.rollback();

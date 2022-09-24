@@ -13,7 +13,7 @@ class userDAO {
 
         const [creationResult] = await conn.query(createPersonaQuery, createPersonaParams);
 
-        return;
+        return creationResult;
     }
 
     checkPersona = async (conn, userId) => {
