@@ -12,8 +12,26 @@ tags:
     description: 피드 도메인 관련 API들
   - name: Notice
     descripion: 공지 도메인 관련 API들
+  - name: Test
+    description: 테스트 API
 
 paths:
+  /api/test:
+    get:
+      tags:
+        - Test
+      summary: 커넥션 테스트 API
+      responses:
+        '100':
+          description: 테스트
+          content: 
+            application/json:
+              schema:
+                type: pong
+                properties:
+                  content: 
+                    example:
+    
   /api/feeds/feedList?profileId={profileId}&page={page}&pageSize={pageSize}:
     get:
       tags:

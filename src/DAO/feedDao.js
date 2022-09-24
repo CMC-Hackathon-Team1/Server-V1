@@ -204,6 +204,25 @@ class feedDAO {
         return deleteFeedHashtagMapResult;
     }
 
+    insertFeedLike = async (conn, feedId, profileId) => {
+        const insertQuery = `
+            INSERT INTO Likes(feedId, profileId)
+            VALUE(?, ?)
+        `;
+        const [insertResult] = await conn.query(insertQuery, [feedId, profileId]);
+
+        return insertResult;
+    }
+
+    deleteFeedLike = async (conn, feedId, profileId) => {
+        const deleteQuery = `
+            DELETE FROM Likes
+            WHERE feedId = ? and profileId = ?
+        `;
+        const [deleteResult] = await conn.query(deleteQuery, [feedId, profileId]);
+
+        return deleteResult;
+    }
 }
 
 

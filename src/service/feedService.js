@@ -192,9 +192,7 @@ class feedService {
     getFeedsByDate = async (year,month,day,profileId) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-
             await connection.beginTransaction();
-            
     
             const Feeds = await this.feedDAO.getFeedsByDate(connection, year,month,day,profileId);
     
@@ -208,6 +206,46 @@ class feedService {
         } finally {
             connection.release();
         }
+    }
+
+    createFeedLike = async (feedsId, profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+            
+            await this.feedDAO.insertFeedLike(connection, feedsId, profileId);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+            
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    removeFeedLike = async (feedsId, profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+            
+            await this.feedDAO.deleteFeedLike(connection, feedsId, profileId);
+
+            await connection.commit();
+            return response(baseResponse.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+            
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+
     }
 }
 

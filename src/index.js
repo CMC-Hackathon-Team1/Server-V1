@@ -25,7 +25,7 @@ const server = () => {
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     app.listen(SERVER_PORT, () => {
-        console.log(`GridgeTestServer is now listening to http://${SERVER_HOST}:${SERVER_PORT}`);
+        console.log(`CMC-Hackathon-Server is now listening to http://${SERVER_HOST}:${SERVER_PORT}`);
     });
     
 };

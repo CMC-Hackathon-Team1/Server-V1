@@ -24,6 +24,11 @@ const feedRouter = (router) =>{
     router.post('/feeds/feed', this.feedController.postFeed);
     router.delete('/feeds/feed/:feedId', this.feedController.deleteFeed);
 
+    // 게시글 좋아요
+    router.post('/feeds/like', this.feedController.postFeedLike);
+    // 게시글 좋아요 취소
+    router.delete('/feeds/like', this.feedController.deleteFeedLike);
+
 };
 
 module.exports = feedRouter;
