@@ -394,8 +394,54 @@ paths:
 
 
 
-# 게시글 삭제
+# 게시글 수정 및 삭제
   /api/feeds/feed/{feedId}:
+    patch:
+      tages:
+        - Feed
+      summary: 게시글 수정
+      parameters:
+          - in: path
+            name: feedId
+            default: 1
+            schema :
+                type: integer
+            example: 1
+            required: true
+            description: 피드 인덱스
+          in: body
+          name: CreateFeed
+          description: 게시글 생성 파라미터
+          schema:
+              type: object
+              required:
+                - category
+                - hashtag
+                - content
+                - status
+                - imgUrl
+              properties:
+                    category:
+                        description: 수정할 카테고리 명입니다. 정해진 카테고리 명만 입력하세요.
+                        type: String
+                        default: "문화 및 예술"
+                    hashtag:
+                        description: 수정할 하나의 String 안에 ‘, ‘를 기준으로 여러 해시태그를 넣어도 됩니다. (꼭 쉼표+빈칸 한칸 으로 구분해야함) 하나만 넣어도 됩니다. 근데 아직 해시태그 기능은 완벽하지 않습니다!
+                        type: String
+                        default: "#개발"
+                    content:
+                        description: 수정할 게시물 내용
+                        type: String
+                        default: "게시물 내용을 입력합니다~!"
+                    status:
+                        description: 수정할 비공개 설정 여부 입니다. ('private' or 'active')
+                        type: String
+                        default: "private"
+                    imgUrl:
+                        description: 수정할 게시글 이미지
+                        type: String
+                        default: "ProfileImgUrl"
+
     delete:
       tags:
         - Feed
