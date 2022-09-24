@@ -4,7 +4,10 @@ const feedRouter = (router) =>{
 
     this.feedController = new feedController();
 
-    router.get('/feeds', function(req, res) { res.send('pong'); });
+     // 회원 전체 정보 보기
+     router.get('/calendars', this.feedController.getCalendarInfo);
+    
+    
 
 };
 

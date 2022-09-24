@@ -19,7 +19,27 @@ class feedService {
         // this.UserRepository = new UserRepository();
     }
 
+    retrieveMyFeedDate = async (year,month) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
 
+            await connection.beginTransaction();
+            
+    
+            const myFeedDateSet = await this.feedDAO.retrieveMyFeedDate(connection, year,month);
+    
+            const myFeedDate = Array.from(myFeedDateSet);
+            await connection.commit();
+            
+            return response(baseResponse.SUCCESS, myFeedDate);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 module.exports = feedService;

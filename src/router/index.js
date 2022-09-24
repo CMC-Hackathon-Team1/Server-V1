@@ -6,12 +6,13 @@ const feedRouter = require('./feedRouter');
 const userRouter = require('./userRouter');
 const noticeRouter = require('./noticeRouter');
 
+
 module.exports = () => {
     
     feedRouter(router);
     userRouter(router);
     noticeRouter(router);
     adminRouter(router);
-
+    
     return router;
 }

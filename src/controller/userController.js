@@ -11,7 +11,21 @@ class userController {
     constructor (){
         this.userService = new userService();
     }
+    
+    
+    // 회원 상세 정보 보기
+    getUserProfiles = async (req, res) => {
+        const userId = req.params.userId;
+        if (!userId){
+            return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
+        } else if (userId < 1) {
+            return res.send(errResponse(baseResponse.USER_USERIDX_MINUS_INTEGER));
+        }
 
+        const retrieveUserProfilesResult = await this.userService.retrieveUserProfiles(userId);
+    
+        return res.send(retrieveUserProfilesResult);
+    }
 }
 
 module.exports = userController;
