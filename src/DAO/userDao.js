@@ -13,7 +13,7 @@ class userDAO {
 
         const [creationResult] = await conn.query(createPersonaQuery, createPersonaParams);
 
-        return;
+        return creationResult;
     }
 
     checkPersona = async (conn, userId) => {
@@ -40,6 +40,20 @@ class userDAO {
         console.log(profileRow);
 
         return profileRow;
+    }
+
+    getUserMyPageData = async (conn, profileId) => {
+        const getUserMyPageDataQuery = `
+            SELECT * FROM Profiles
+            INNER JOIN Persona as P ON Profiles.personaId = P.personaId
+            WHERE Profiles.profileId = ?
+        `;
+
+        const [getUserMyPageDataResult] = await conn.query(getUserMyPageDataQuery, profileId);
+
+        console.log(getUserMyPageDataResult);
+
+        return getUserMyPageDataResult;
     }
 
 }

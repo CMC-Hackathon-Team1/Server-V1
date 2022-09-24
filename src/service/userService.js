@@ -52,7 +52,7 @@ class userService {
 
             await connection.commit();
 
-            return response(baseResponse.SUCCESS);
+            return response(baseResponse.SUCCESS, { "profileId": createPersona.insertId });
         } catch (e) {
             console.log(e);
             await connection.rollback();
@@ -76,6 +76,28 @@ class userService {
             await connection.commit();
 
             return checkPersonaCount;
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    // 유저 마이페이지 조회
+    getUserMyPage = async (profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+
+        try {
+            await connection.beginTransaction();
+
+            const getUserMyPageResult = await this.userDAO.getUserMyPageData(connection, profileId);
+
+            await connection.commit();
+
+            return getUserMyPageResult;
         } catch (e) {
             console.log(e);
             await connection.rollback();
