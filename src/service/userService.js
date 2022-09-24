@@ -93,13 +93,16 @@ class userService {
             // 사용자의 다른 페르소나를 가지고 온 결과
             const changedUserPersona = await this.userDAO.selectUserOtherPersona(connection, profileId);
 
-            const userProfileResult = await this.userDAO.selectProfileName(connection, profileId);
-
-            console.log(changedUserPersona)
-            console.log(userProfileResult)
+            // 사용자 이름
+            const userProfileResult = await this.userDAO.selectProfileNameByProfileId(connection, profileId);
 
             await connection.commit();
-            return errResponse(baseResponse.SUCCESS, changedUserPersona, userProfileResult);
+
+            return response(baseResponse.SUCCESS, { 
+                personaId: changedUserPersona[0].personaId,
+                userProfileName: userProfileResult[0].profileName,
+                personaName : changedUserPersona[0].personaName
+            });
         } catch (e) {
             console.log(e);
             await connection.rollback();
