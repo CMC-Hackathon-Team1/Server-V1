@@ -238,7 +238,6 @@ class feedService {
             await connection.beginTransaction();
             
             const checkExistResult = await this.feedDAO.selectLikeExists(connection, feedId, profileId);
-            console.log(checkExistResult);
 
             // 좋아요가 없다면
             if (checkExistResult[0] == undefined) {
