@@ -40,6 +40,27 @@ class feedService {
             connection.release();
         }
     }
+
+    getFeedsByDate = async (year,month,day,profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+
+            await connection.beginTransaction();
+            
+    
+            const Feeds = await this.feedDAO.getFeedsByDate(connection, year,month,day,profileId);
+    
+            await connection.commit();
+            
+            return response(baseResponse.SUCCESS, Feeds);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 module.exports = feedService;

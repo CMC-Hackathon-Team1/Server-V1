@@ -6,8 +6,7 @@ const feedRouter = (router) =>{
 
      // 회원 전체 정보 보기
      router.get('/calendars', this.feedController.getCalendarInfo);
-    
-    
+     router.get('/feeds/dates/profiles/:profileId',this.feedController.getFeedsByDate);
 
 };
 

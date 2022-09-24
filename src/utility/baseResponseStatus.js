@@ -8,9 +8,11 @@ module.exports = {
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 300, "message": "JWT 토큰 검증 실패" },
     TOKEN_VERIFICATION_SUCCESS : { "isSuccess": true, "code": 101, "message": "JWT 토큰 검증 성공" },
     ACCESS_TOKEN_EMPTY : { "isSuccess" : false, "code": 308, "message": "refresh token 만료, 새 AccessToken이 필요합니다."},
-
+    
     YEAR_RANGE_OUT:{ "isSuccess": false, "code": 200, "message": "연도 범위 벗어났습니다.1900~2100년 사이로 넘겨주세요" },
     MONTH_RANGE_OUT:{ "isSuccess": false, "code": 201, "message": "월 범위 벗어났습니다.1월~12월 사이로 넘겨주세요" },
+    DAY_RANGE_OUT:{"isSuccess": false, "code": 210, "message": "일 범위 벗어났습니다.1일 ~ 31일 사이로 넘겨주세요"},
+
     USER_USERIDX_MINUS_INTEGER:{ "isSuccess": false, "code": 201, "message": "userId 음수는 안됩니다." },
     //Request error
     
