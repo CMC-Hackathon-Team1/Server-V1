@@ -1,4 +1,4 @@
-const noticeDAO = require('../DAO/noticeDAO');
+const noticeDAO = require('../DAO/noticeDao');
 
 const { pool } = require('../config/db');
 
