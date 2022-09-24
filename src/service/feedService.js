@@ -81,7 +81,9 @@ class feedService {
                     const insertNewHashtagResult = await this.feedDAO.insertNewHashtagInfo(connection, hashtagList[i]);
                     const insertedHashtagId = insertNewHashtagResult.insertId;
                     // console.log(insertedHashtagId);
-                    // @TODO
+                    // 새로 생성된 HashtagId를 리스트에 추가
+                    hashtagIdList.push(insertedHashtagId);
+                    // @TODO 개선 사항
                     // Profile Hashtag 테이블에도 매핑 추가
                     // const insertNewHashtagProfileResult = await this.feedDAO.insertNewHashtagProfileInfo(connection, [profileId, insertedHashtagId]);
                     // console.log(insertNewHashtagProfileResult.insertId);
@@ -100,12 +102,11 @@ class feedService {
             const insertedFeedCategoryMappingId = insertFeedCategoryMapResult.insertId;
             // console.log(insertedFeedCategoryMappingId);
 
-            // @TODO
             // Hashtag 매핑 추가
-            // for (let i = 0; i < hashtagIdList.length; i++) {
-            //     const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
-            //     console.log(insertHashtagMappingResult.insertId);
-            // }
+            for (let i = 0; i < hashtagIdList.length; i++) {
+                const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
+                // console.log(insertHashtagMappingResult.insertId);
+            }
 
             await connection.commit();
 
@@ -152,10 +153,11 @@ class feedService {
                     const insertNewHashtagResult = await this.feedDAO.insertNewHashtagInfo(connection, hashtagList[i]);
                     const insertedHashtagId = insertNewHashtagResult.insertId;
                     // console.log(insertedHashtagId);
-                    // @TODO
+                    hashtagIdList.push(insertedHashtagId);
+                    // @TODO 개선 사항
                     // Profile Hashtag 테이블에도 매핑 추가
                     // const insertNewHashtagProfileResult = await this.feedDAO.insertNewHashtagProfileInfo(connection, [profileId, insertedHashtagId]);
-                    // // console.log(insertNewHashtagProfileResult.insertId);
+                    // console.log(insertNewHashtagProfileResult.insertId);
                     // hashtagIdList.push(insertNewHashtagProfileResult.insertId);
                 }
             }
@@ -164,12 +166,14 @@ class feedService {
             // Feed 수정
             const updateFeedResult = await this.feedDAO.updateFeedInfo(connection, [content, status, feedId]);
 
-            // @TODO
-            // Hashtag 매핑 추가
-            // for (let i = 0; i < hashtagIdList.length; i++) {
-            //     const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
-            //     console.log(insertHashtagMappingResult.insertId);
-            // }
+            // Hashtag 수정
+            // Hashtag 제거
+            const deleteHashtagMappingResult = await this.feedDAO.deleteFeedHashtagMapInfo(connection, feedId);
+            // Hashtag 새로 집어넣기
+            for (let i = 0; i < hashtagIdList.length; i++) {
+                const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [feedId, hashtagIdList[i]]);
+                // console.log(insertHashtagMappingResult.insertId);
+            }
 
             await connection.commit();
 
