@@ -62,6 +62,8 @@ class userController {
     // 페르소나 마이페이지
     userMyPage = async (req, res) => {
         const profileId = req.params.profileId;
+        const year = req.query.year;
+        const month = req.query.month;
 
         if (!profileId) {
             return res.send(errResponse(baseResponse.USER_PROFILEID_EMPTY));
@@ -70,7 +72,7 @@ class userController {
             return res.send(errResponse(baseResponse.USER_PROFILEID_LENGTH));
         };
 
-        const userMyPageResult = await this.userService.getUserMyPage(profileId);
+        const userMyPageResult = await this.userService.getUserMyPage(profileId, year, month);
 
         return res.send(userMyPageResult);
     }

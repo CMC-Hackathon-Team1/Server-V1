@@ -87,17 +87,17 @@ class userService {
     }
 
     // 유저 마이페이지 조회
-    getUserMyPage = async (profileId) => {
+    getUserMyPage = async (profileId, year, month) => {
         const connection = await pool.getConnection(async (connection) => connection);
 
         try {
             await connection.beginTransaction();
 
-            const getUserMyPageResult = await this.userDAO.getUserMyPageData(connection, profileId);
+            const getUserMyPageResult = await this.userDAO.getUserMyPageData(connection, profileId, year, month);
 
             await connection.commit();
 
-            return getUserMyPageResult;
+            return response(baseResponse.SUCCESS, getUserMyPageResult);
         } catch (e) {
             console.log(e);
             await connection.rollback();
