@@ -115,6 +115,13 @@ module.exports = {
     USER_PROFILEID_LENGTH :{ "isSuccess": false, "code": 3001, "message": "profileId를 0보다 큰 값을 입력해주세요."},
     USER_PERSONAID_EMPTY :{ "isSuccess": false, "code": 3002, "message": "personaId를 입력해주세요."},
     USER_PERSONAID_LENGTH :{ "isSuccess": false, "code": 3003, "message": "personaId를 0보다 큰 값을 입력해주세요."},
+    PAGING_PARAMS_EMPTY :{ "isSuccess": false, "code": 3004, "message": "paging 파라미터를 입력해주세요."},
+
+    USER_FEEDID_EMPTY :{ "isSuccess": false, "code": 3005, "message": "feedId를 입력해주세요."},
+    USER_FEEDID_LENGTH :{ "isSuccess": false, "code": 3006, "message": "feedId를 0보다 큰 값으로 입력해주세요."},
+
+
+
 
 
 

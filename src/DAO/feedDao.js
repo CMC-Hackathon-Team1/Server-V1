@@ -20,16 +20,45 @@ class feedDAO {
     }
     
 
-    selectFeedList = async (conn, profileId) => {
+    selectFeedList = async (conn, feedListQuery) => {
         const selectFeedList = `
         SELECT Feeds.updatedAt, content, Feeds.ImgUrl
         FROM Feeds
         WHERE Feeds.ProfileId = ?
+        LIMIT ?, ?;
         `
-        const [feedListRow] = await conn.query(selectFeedList, profileId);
+        const [feedListRow] = await conn.query(selectFeedList, feedListQuery);
 
         return feedListRow;
     }
+
+    
+    // with Paging
+    retrieveTotalDataCount = async (conn, profileId) => {
+        const selectFeedList = `
+        SELECT COUNT(profileId) as totalDataCount
+        FROM Feeds
+        WHERE profileId = ?;
+        `
+        const [totalDataCountRow] = await conn.query(selectFeedList, profileId);
+
+        return totalDataCountRow;
+    }
+
+    selectFeedInfo = async (conn, feedInfoQuery) => {
+        const selectFeedList = `
+        SELECT personaName, profileName, updatedAt, content
+        FROM Feeds
+        JOIN Profiles on Profiles.profileId = Feeds.profileId
+        JOIN Persona P on Profiles.personaId = P.personaId
+        WHERE Profiles.profileId = ? and Feeds.feedId = ?
+        `
+
+        const [feedInfoRow] = await conn.query(selectFeedList, feedInfoQuery);
+
+        return feedInfoRow;
+     }
+
 
     insertFeedInfo = async (conn, insertFeedInfoParams) => {
         const insertFeedInfoQuery = `
@@ -101,7 +130,9 @@ class feedDAO {
         const [insertFeedHashtagMapResult] = await conn.query(insertFeedHashtagMapQuery, insertFeedHashtagMapInfoParams);
 
         return insertFeedHashtagMapResult;
+
     }
+    
 
 }
 
