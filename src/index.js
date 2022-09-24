@@ -12,7 +12,6 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load(path.join(__dirname, '../swagger/swagger.yaml'));
 
-
 const { SERVER_HOST, SERVER_PORT } = process.env;
 
 const server = () => {
