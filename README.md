@@ -1,6 +1,4 @@
-# GridgeTestChallenge  
-#### 07.25 ~ 8.5 컴공선배팀 그릿지테스트
-
+# 2회 너디너리 해커톤 가즈아
 ## Package Structure
 ```
 📂 git@iamjooon2/GridgeTestChallenge
