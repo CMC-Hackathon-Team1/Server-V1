@@ -6,24 +6,15 @@ const baseResponse = require('../utility/baseResponseStatus')
 const { errResponse, response } = require('../utility/response');
 
 class userService {
-
     userDAO;
-    // CommentRepository;
-    // PostRepository;
-    // UserRepository;
 
     constructor() {
         this.userDAO = new userDAO();
-        // this.CommentRepository = new CommentRepository();
-        // this.PostRepository = new PostRepository();
-        // this.UserRepository = new UserRepository();
     }
 
     retrieveUserProfiles = async (userId) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-            
-            
             const retrieveUserProfilesResult = await this.userDAO.retrieveUserProfiles(connection,userId);
     
             console.log(retrieveUserProfilesResult);

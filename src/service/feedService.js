@@ -6,17 +6,10 @@ const baseResponse = require('../utility/baseResponseStatus')
 const { errResponse, response } = require('../utility/response');
 
 class feedService {
-
     feedDAO;
-    // CommentRepository;
-    // PostRepository;
-    // UserRepository;
 
     constructor() {
         this.feedDAO = new feedDAO();
-        // this.CommentRepository = new CommentRepository();
-        // this.PostRepository = new PostRepository();
-        // this.UserRepository = new UserRepository();
     }
 
     // API 2.4 - 게시물 (최신순으로) 리스트 조회
