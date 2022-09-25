@@ -125,6 +125,7 @@ class userDAO {
        Profiles.profileName,
        P.personaName,
        F.content,
+       F.ImgUrl,
        IF(IsLike.feedId,true,false) as isLike,
        DATE_FORMAT(F.createdAt,"%Y/%m/%d") as createdAt,
        IFNULL(GROUP_CONCAT(HTINFO.hashTagName separator '#'),null) as hashTagStr
