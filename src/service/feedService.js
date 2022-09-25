@@ -6,17 +6,10 @@ const baseResponse = require('../utility/baseResponseStatus')
 const { errResponse, response } = require('../utility/response');
 
 class feedService {
-
     feedDAO;
-    // CommentRepository;
-    // PostRepository;
-    // UserRepository;
 
     constructor() {
         this.feedDAO = new feedDAO();
-        // this.CommentRepository = new CommentRepository();
-        // this.PostRepository = new PostRepository();
-        // this.UserRepository = new UserRepository();
     }
 
     // API 2.4 - 게시물 (최신순으로) 리스트 조회
@@ -81,7 +74,9 @@ class feedService {
                     const insertNewHashtagResult = await this.feedDAO.insertNewHashtagInfo(connection, hashtagList[i]);
                     const insertedHashtagId = insertNewHashtagResult.insertId;
                     // console.log(insertedHashtagId);
-                    // @TODO
+                    // 새로 생성된 HashtagId를 리스트에 추가
+                    hashtagIdList.push(insertedHashtagId);
+                    // @TODO 개선 사항
                     // Profile Hashtag 테이블에도 매핑 추가
                     // const insertNewHashtagProfileResult = await this.feedDAO.insertNewHashtagProfileInfo(connection, [profileId, insertedHashtagId]);
                     // console.log(insertNewHashtagProfileResult.insertId);
@@ -100,12 +95,11 @@ class feedService {
             const insertedFeedCategoryMappingId = insertFeedCategoryMapResult.insertId;
             // console.log(insertedFeedCategoryMappingId);
 
-            // @TODO
             // Hashtag 매핑 추가
-            // for (let i = 0; i < hashtagIdList.length; i++) {
-            //     const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
-            //     console.log(insertHashtagMappingResult.insertId);
-            // }
+            for (let i = 0; i < hashtagIdList.length; i++) {
+                const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
+                // console.log(insertHashtagMappingResult.insertId);
+            }
 
             await connection.commit();
 
@@ -152,10 +146,11 @@ class feedService {
                     const insertNewHashtagResult = await this.feedDAO.insertNewHashtagInfo(connection, hashtagList[i]);
                     const insertedHashtagId = insertNewHashtagResult.insertId;
                     // console.log(insertedHashtagId);
-                    // @TODO
+                    hashtagIdList.push(insertedHashtagId);
+                    // @TODO 개선 사항
                     // Profile Hashtag 테이블에도 매핑 추가
                     // const insertNewHashtagProfileResult = await this.feedDAO.insertNewHashtagProfileInfo(connection, [profileId, insertedHashtagId]);
-                    // // console.log(insertNewHashtagProfileResult.insertId);
+                    // console.log(insertNewHashtagProfileResult.insertId);
                     // hashtagIdList.push(insertNewHashtagProfileResult.insertId);
                 }
             }
@@ -164,12 +159,14 @@ class feedService {
             // Feed 수정
             const updateFeedResult = await this.feedDAO.updateFeedInfo(connection, [content, status, feedId]);
 
-            // @TODO
-            // Hashtag 매핑 추가
-            // for (let i = 0; i < hashtagIdList.length; i++) {
-            //     const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [insertedFeedId, hashtagIdList[i]]);
-            //     console.log(insertHashtagMappingResult.insertId);
-            // }
+            // Hashtag 수정
+            // Hashtag 제거
+            const deleteHashtagMappingResult = await this.feedDAO.deleteFeedHashtagMapInfo(connection, feedId);
+            // Hashtag 새로 집어넣기
+            for (let i = 0; i < hashtagIdList.length; i++) {
+                const insertHashtagMappingResult = await this.feedDAO.insertFeedHashtagMapInfo(connection, [feedId, hashtagIdList[i]]);
+                // console.log(insertHashtagMappingResult.insertId);
+            }
 
             await connection.commit();
 
@@ -258,9 +255,7 @@ class feedService {
     getFeedsByDate = async (year,month,day,profileId) => {
         const connection = await pool.getConnection(async (connection) => connection);
         try {
-
             await connection.beginTransaction();
-            
     
             const Feeds = await this.feedDAO.getFeedsByDate(connection, year,month,day,profileId);
     
@@ -270,6 +265,65 @@ class feedService {
         } catch (e) {
             console.log(e);
             await connection.rollback();
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    // 게시글 좋아요
+    createFeedLike = async (feedId, profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+
+            const checkExistResult = await this.feedDAO.selectLikeExists(connection, feedId, profileId);
+
+            // 이미 좋아요가 있다면
+            if (checkExistResult[0] !== undefined) {
+                // 클라이언트로 해당 좋아요가 이미 있다고 알림
+                return errResponse(baseResponse.LIKE_EXISTS);
+            }
+
+            // 그렇지 않다면 좋아요 추가
+            await this.feedDAO.insertFeedLike(connection, feedId, profileId);
+
+            await connection.commit();
+
+            return response(baseResponse.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+            
+            return errResponse(baseResponse.DB_ERROR);
+        } finally {
+            connection.release();
+        }
+    }
+
+    // 게시글 좋아요 취소
+    removeFeedLike = async (feedId, profileId) => {
+        const connection = await pool.getConnection(async (connection) => connection);
+        try {
+            await connection.beginTransaction();
+            
+            const checkExistResult = await this.feedDAO.selectLikeExists(connection, feedId, profileId);
+
+            // 좋아요가 없다면
+            if (checkExistResult[0] == undefined) {
+                // 클라이언트로 해당 좋아요가 없음을 알림
+                return errResponse(baseResponse.LIKE_DOSENT_EXIST);
+            }
+
+            // 좋아요 취소
+            await this.feedDAO.deleteFeedLike(connection, feedId, profileId);
+
+            await connection.commit();
+            return response(baseResponse.SUCCESS);
+        } catch (e) {
+            console.log(e);
+            await connection.rollback();
+            
             return errResponse(baseResponse.DB_ERROR);
         } finally {
             connection.release();

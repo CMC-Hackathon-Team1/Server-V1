@@ -12,7 +12,6 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load(path.join(__dirname, '../swagger/swagger.yaml'));
 
-
 const { SERVER_HOST, SERVER_PORT } = process.env;
 
 const server = () => {
@@ -26,7 +25,7 @@ const server = () => {
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     app.listen(SERVER_PORT, () => {
-        console.log(`GridgeTestServer is now listening to http://${SERVER_HOST}:${SERVER_PORT}`);
+        console.log(`CMC-Hackathon-Server is now listening to http://${SERVER_HOST}:${SERVER_PORT}`);
     });
     
 };

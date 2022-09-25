@@ -99,8 +99,8 @@ module.exports = {
     DB_ERROR : { "isSuccess": false, "code": 400, "message": "데이터 베이스 에러"},
     SERVER_ERROR : { "isSuccess": false, "code": 401, "message": "서버 에러"},
     // 이준희 추가 에러
-    PERSONA_ID_NULL : {"isSuccess": false, "code": 500, "message": "personaId를 입력해주세요."},
-    PERSONA_ID_NEGATIVE : {"isSuccess": false, "code": 501, "message": "personaID는 0보다 큰 값을 입력해주세요."},
+    LIKE_EXISTS : {"isSuccess": false, "code": 500, "message": "좋아요가 이미 존재합니다."},
+    LIKE_DOSENT_EXIST : {"isSuccess": false, "code": 501, "message": "해당 게시글의 좋아요가 존재하지 않습니다"},
 
     REPORT_COMMENTREPORT_EMPTY : { "isSuccess": false, "code": 502, "message": "commentReportIdx를 입력해주세요"},
     REPORT_COMMENTREPORT_LENGTH: { "isSuccess": false, "code": 503, "message": "commentReportIdx는 0보다 큰 값으로 입력해주세요." },
