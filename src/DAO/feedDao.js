@@ -36,6 +36,7 @@ class feedDAO {
         Profiles.statusMessage,
         Profiles.profileName,
         P.personaName,
+        F.ImgUrl,
         F.content,
         DATE_FORMAT(F.createdAt,"%Y/%m/%d") as createdAt,
         IFNULL(GROUP_CONCAT(HTINFO.hashTagName separator '#'),null) as hashTagStr
