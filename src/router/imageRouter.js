@@ -5,10 +5,10 @@ const multers3 = require('multer-s3')
 const path = require('path')
 const baseResponse = require("../utility/baseResponseStatus");
 const {response, errResponse} = require("../utility/response");
-const ImageService = require("./ImageService");
+const ImageService = require("../service/ImageService");
 
 
-const fileRouter = router => {
+const imageRouter = router => {
     dotenv.config();
     AWS.config.update({
         region : 'ap-northeast-2',
@@ -61,4 +61,4 @@ const fileRouter = router => {
 
 };
 
-module.exports = fileRouter;
+module.exports = imageRouter;
