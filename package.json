@@ -1,5 +1,5 @@
 {
-    "name": "GridgeTestChallenge",
+    "name": "CMC-HACKATHON-Team1",
     "main": "src/index.js",
     "scripts": {
         "api-docs": "swagger-cli bundle ./swagger/swagger.yaml --outfile build/swagger.yaml --type yaml",
