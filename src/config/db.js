@@ -18,8 +18,6 @@ const pool = mysql.createPool({
     bigNumberStrings: true,
     multipleStatements: true,
 
-    multipleStatements: true,
-
     // ----- connection pool options
   
     /**
